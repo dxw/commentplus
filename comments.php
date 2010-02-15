@@ -11,13 +11,39 @@ if ( post_password_required() ) {
 $streams = json_decode(get_post_meta($post->ID, 'commentplus',1));
 
 if (comments_open() || have_comments()) {
+?>
+<div id="comments">
+  <div class="navigation">
+    <p class="alignleft"></p>
+    <p class="alignright"></p>
+  </div>
+<?php
   if ($streams) {
     foreach($streams as $stream) {
-      echo "<p>$stream</p>\n";
+?>
+  <div class="commentplus_stream">
+  <h4><?php echo htmlentities($stream) ?></h4>
+  <div class="respond">
+    <p>Respond</p>
+  </div>
+  <ol class="commentlist">
+    <li>Comment list</li>
+  </ol>
+  </div>
+<?php
     }
   }
+?>
+  <div class="navigation">
+    <p class="alignleft"></p>
+    <p class="alignright"></p>
+  </div>
+</div>
+<?php
 } else {
-  echo '<p class="nocomments">Comments are closed.</p>';
+?>
+<p class="nocomments">Comments are closed.</p>';
+<?php
 }
 
 ?>
