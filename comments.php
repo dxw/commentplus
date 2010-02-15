@@ -19,12 +19,15 @@ if (comments_open() || have_comments()) {
   </div>
 <?php
   if ($streams) {
+    $n = 0;
     foreach($streams as $stream) {
+      $n++;
+      $stream = htmlentities($stream);
 ?>
-  <div class="commentplus_stream">
-  <h4><?php echo htmlentities($stream) ?></h4>
+  <div id="commentplus_stream_<?php echo $n ?>" class="commentplus_stream">
+  <h4><?php echo $stream ?></h4>
   <div class="respond">
-    <p>Respond</p>
+<?php include "respond.php" ?>
   </div>
   <ol class="commentlist">
     <li>Comment list</li>
