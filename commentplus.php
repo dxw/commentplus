@@ -20,7 +20,7 @@ class CommentPlus {
 
   function query($query) {
     global $wpdb;
-    $query = preg_replace('/WHERE/', 'JOIN wp_commentmeta ON wp_comments.comment_ID=wp_commentmeta.comment_id \0 wp_commentmeta.meta_key="commentplus_stream" AND wp_commentmeta.meta_value=%s AND ', $query);
+    $query = preg_replace('/WHERE/', "JOIN $wpdb->commentmeta ON $wpdb->comments.comment_ID=$wpdb->commentmeta.comment_id \\0 $wpdb->commentmeta.meta_key='commentplus_stream' AND $wpdb->commentmeta.meta_value=%s AND ", $query);
     $query = $wpdb->prepare($query, $this->stream);
     return $query;
   }

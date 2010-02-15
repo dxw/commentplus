@@ -27,6 +27,7 @@ end
 
 AfterStep do |scenario|
   Then 'I should not see "( ! )"' # Xdebug
+  Then 'I should not see "WordPress database error"' # wpdb
   Then 'I should not see "Notice:  "'
   Then 'I should not see "Warning:  "'
   Then 'I should not see "Error:  "'
