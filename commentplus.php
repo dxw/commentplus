@@ -12,9 +12,20 @@ class CommentPlus {
     add_action('comment_post', array(&$this, 'comment_post'));
   }
 
+  // Filters
+
   function comments_template($template) {
     return dirname(__FILE__).'/comments.php';
   }
+
+  function query($query) {
+    global $wpdb;
+    $query = preg_replace('/WHERE/', 'JOIN wp_commentmeta ON wp_comments.comment_ID=wp_commentmeta.comment_id \0 wp_commentmeta.meta_key="commentplus_stream" AND wp_commentmeta.meta_value=%s AND ', $query);
+    $query = $wpdb->prepare($query, $this->stream);
+    return $query;
+  }
+
+  // Actions
 
   function comment_post($comment_ID) {
     $comment = get_comment($comment_ID);
@@ -23,8 +34,21 @@ class CommentPlus {
     if ($streams && in_array($stream, $streams))
       add_comment_meta($comment_ID, 'commentplus_stream', $stream);
   }
+
+  // Everything else
+
+  function get_comments($stream) {
+    global $post;
+    $this->stream = $stream;
+    add_filter('query', array(&$this, 'query'));
+    $comments = get_comments(array('post_id' => $post->ID));
+    remove_filter('query', array(&$this, 'query'));
+
+    wp_cache_flush();
+    return $comments;
+  }
 }
 
-new CommentPlus;
+$commentplus = new CommentPlus;
 
 ?>

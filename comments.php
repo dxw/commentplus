@@ -8,6 +8,7 @@ if ( post_password_required() ) {
 }
 ?>
 <?php
+global $commentplus;
 $streams = json_decode(get_post_meta($post->ID, 'commentplus',1));
 
 if (comments_open() || have_comments()) {
@@ -30,7 +31,7 @@ if (comments_open() || have_comments()) {
 <?php include "respond.php" ?>
   </div>
   <ol class="commentlist">
-    <li>Comment list</li>
+    <?php wp_list_comments('', $commentplus->get_comments($stream)) ?>
   </ol>
   </div>
 <?php
