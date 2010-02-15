@@ -11,4 +11,15 @@ function commentplus_comments_template($template) {
 }
 
 add_filter('comments_template', 'commentplus_comments_template');
+
+function commentplus_comment_post($comment_ID) {
+  $comment = get_comment($comment_ID);
+  $stream = $_POST['commentplus_stream'];
+  $streams = json_decode(get_post_meta($comment->comment_post_ID, 'commentplus', 1));
+  if ($streams && in_array($stream, $streams))
+    add_comment_meta($comment_ID, 'commentplus_stream', $stream);
+}
+
+add_action('comment_post', 'commentplus_comment_post');
+
 ?>
