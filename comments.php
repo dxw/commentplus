@@ -46,7 +46,7 @@ if (comments_open() || have_comments()) {
 <?php
 } else {
 ?>
-<p class="nocomments">Comments are closed.</p>';
+<p class="nocomments">Comments are closed.</p>
 <?php
 }
 
