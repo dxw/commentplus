@@ -18,13 +18,6 @@ class CommentPlus {
     return dirname(__FILE__).'/comments.php';
   }
 
-  function query($query) {
-    global $wpdb;
-    $query = preg_replace('/WHERE/', "JOIN $wpdb->commentmeta ON $wpdb->comments.comment_ID=$wpdb->commentmeta.comment_id \\0 $wpdb->commentmeta.meta_key='commentplus_stream' AND $wpdb->commentmeta.meta_value=%s AND ", $query);
-    $query = $wpdb->prepare($query, $this->stream);
-    return $query;
-  }
-
   // Actions
 
   function comment_post($comment_ID) {
