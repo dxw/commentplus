@@ -38,13 +38,11 @@ class CommentPlus {
   // Everything else
 
   function get_comments($stream) {
-    global $post;
-    $this->stream = $stream;
-    add_filter('query', array(&$this, 'query'));
-    $comments = get_comments(array('post_id' => $post->ID));
-    remove_filter('query', array(&$this, 'query'));
-
-    wp_cache_flush();
+    global $wp_query;
+    $comments = array();
+    foreach ($wp_query->comments as $comment)
+      if (get_comment_meta($comment->comment_ID, 'commentplus_stream', 1) == $stream)
+        $comments[] = $comment;
     return $comments;
   }
 }
