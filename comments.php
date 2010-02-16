@@ -37,6 +37,8 @@ if (comments_open() || have_comments()) {
 <?php
     }
   }
+  // Helpfully, wp_list_comments overwrites $wp_query->max_num_comment_pages
+  $commentplus->fiddle_max_num_comment_pages();
 ?>
   <div class="navigation">
     <p class="alignleft"><?php previous_comments_link() ?></p>
