@@ -30,9 +30,9 @@ class CommentPlus {
   function comment_post($comment_ID) {
     $comment = get_comment($comment_ID);
     $stream = $_POST['commentplus_stream'];
-    $streams = json_decode(get_post_meta($comment->comment_post_ID, 'commentplus', 1));
+    $streams = json_decode(get_post_meta($comment->comment_post_ID, '_commentplus', 1));
     if ($streams && in_array($stream, $streams))
-      add_comment_meta($comment_ID, 'commentplus_stream', $stream);
+      add_comment_meta($comment_ID, '_commentplus_stream', $stream);
   }
 
   // Everything else
@@ -41,7 +41,7 @@ class CommentPlus {
     global $wp_query;
     $comments = array();
     foreach ($wp_query->comments as $comment)
-      if (get_comment_meta($comment->comment_ID, 'commentplus_stream', 1) == $stream)
+      if (get_comment_meta($comment->comment_ID, '_commentplus_stream', 1) == $stream)
         $comments[] = $comment;
     return $comments;
   }
@@ -53,13 +53,13 @@ class CommentPlus {
       $comments = $wp_query->comments;
 
     // Split comments per stream
-    $streams = json_decode(get_post_meta($post->ID, 'commentplus', 1));
+    $streams = json_decode(get_post_meta($post->ID, '_commentplus', 1));
     $streamed_comments = array();
     foreach ($streams as $stream)
       $streamed_comments[$stream] = array();
 
     foreach ($comments as $comment) {
-      $stream = get_comment_meta($comment->comment_ID, 'commentplus_stream', 1);
+      $stream = get_comment_meta($comment->comment_ID, '_commentplus_stream', 1);
       if (in_array($stream, $streams))
         $streamed_comments[$stream][] = $comment;
     }

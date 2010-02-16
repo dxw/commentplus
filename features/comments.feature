@@ -7,7 +7,7 @@ Feature: Commenting on a post
     And option "default_comments_page" is set to "oldest"
     And plugin "commentplus" is enabled
     And a post called "TestPost1"
-    And the post "TestPost1" has meta "commentplus" as "["Stream1","Stream2","Stream3"]"
+    And the post "TestPost1" has meta "_commentplus" as "["Stream1","Stream2","Stream3"]"
     And I am not logged in
 
   Scenario: Comment+ appears on posts

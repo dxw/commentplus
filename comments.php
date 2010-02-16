@@ -9,7 +9,7 @@ if ( post_password_required() ) {
 ?>
 <?php
 global $commentplus;
-$streams = json_decode(get_post_meta($post->ID, 'commentplus',1));
+$streams = json_decode(get_post_meta($post->ID, '_commentplus',1));
 
 if (comments_open() || have_comments()) {
 ?>
