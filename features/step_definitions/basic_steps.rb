@@ -35,3 +35,7 @@ Then /^I should not see "([^\"]*)" within "([^\"]*)"$/ do |text, selector|
     content.dom.inner_text.should_not include text
   end
 end
+
+Then /^I approve all comments$/ do
+  WordPress.mysql.query(%Q'UPDATE #{WordPress.TABLE_PREFIX}comments SET comment_approved=1')
+end

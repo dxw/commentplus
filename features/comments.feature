@@ -2,6 +2,9 @@ Feature: Commenting on a post
 
   Background:
     Given WordPress is installed
+    And option "comments_per_page" is set to "2"
+    And option "comments_order" is set to "asc"
+    And option "default_comments_page" is set to "oldest"
     And plugin "commentplus" is enabled
     And a post called "TestPost1"
     And the post "TestPost1" has meta "commentplus" as "["Stream1","Stream2","Stream3"]"
@@ -30,3 +33,46 @@ Feature: Commenting on a post
     Then I should see "Tickle" within "#commentplus_stream_1"
     And I should not see "Tickle" within "#commentplus_stream_2"
     And I should not see "Tickle" within "#commentplus_stream_3"
+
+  Scenario: Comment pagination
+    Given I am logged in as "admin"
+    And I am on post "TestPost1"
+
+    And I fill in "comment_1" with "stream1_comment1"
+    And I press "submit_1"
+    And I fill in "comment_1" with "stream1_comment2"
+    And I press "submit_1"
+    And I fill in "comment_1" with "stream1_comment3"
+    And I press "submit_1"
+    And I fill in "comment_2" with "stream2_comment1"
+    And I press "submit_2"
+    And I fill in "comment_2" with "stream2_comment2"
+    And I press "submit_2"
+    And I fill in "comment_2" with "stream2_comment3"
+    And I press "submit_2"
+
+    Then I approve all comments
+    Given I am on post "TestPost1"
+
+    Then I should see "stream1_comment1" within "#commentplus_stream_1"
+    And I should see "stream1_comment2" within "#commentplus_stream_1"
+    And I should not see "stream1_comment3" within "#commentplus_stream_1"
+
+    And I should see "stream2_comment1" within "#commentplus_stream_2"
+    And I should see "stream2_comment2" within "#commentplus_stream_2"
+    And I should not see "stream2_comment3" within "#commentplus_stream_2"
+
+    And I should not see "Older Comments"
+
+    When I follow "Newer Comments"
+
+    Then I should not see "stream1_comment1" within "#commentplus_stream_1"
+    And I should not see "stream1_comment2" within "#commentplus_stream_1"
+    And I should see "stream1_comment3" within "#commentplus_stream_1"
+
+    And I should not see "stream2_comment1" within "#commentplus_stream_2"
+    And I should not see "stream2_comment2" within "#commentplus_stream_2"
+    And I should see "stream2_comment3" within "#commentplus_stream_2"
+
+    And I should not see "Newer Comments"
+    And I should see "Older Comments"
