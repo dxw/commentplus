@@ -30,9 +30,9 @@ Feature: Commenting on a post
     And I fill in "email_1" with "tom@thedextrousweb.com"
     And I fill in "comment_1" with "Tickle the tester to test the test."
     And I press "Submit Comment"
-    Then I should see "Tickle" within "#commentplus_stream_1"
-    And I should not see "Tickle" within "#commentplus_stream_2"
-    And I should not see "Tickle" within "#commentplus_stream_3"
+    Then I should see "Tickle" within "#commentplus_stream_Stream1"
+    And I should not see "Tickle" within "#commentplus_stream_Stream2"
+    And I should not see "Tickle" within "#commentplus_stream_Stream3"
 
   Scenario: Comment pagination
     Given I am logged in as "admin"
@@ -54,25 +54,25 @@ Feature: Commenting on a post
     Then I approve all comments
     Given I am on post "TestPost1"
 
-    Then I should see "stream1_comment1" within "#commentplus_stream_1"
-    And I should see "stream1_comment2" within "#commentplus_stream_1"
-    And I should not see "stream1_comment3" within "#commentplus_stream_1"
+    Then I should see "stream1_comment1" within "#commentplus_stream_Stream1"
+    And I should see "stream1_comment2" within "#commentplus_stream_Stream1"
+    And I should not see "stream1_comment3" within "#commentplus_stream_Stream1"
 
-    And I should see "stream2_comment1" within "#commentplus_stream_2"
-    And I should see "stream2_comment2" within "#commentplus_stream_2"
-    And I should not see "stream2_comment3" within "#commentplus_stream_2"
+    And I should see "stream2_comment1" within "#commentplus_stream_Stream2"
+    And I should see "stream2_comment2" within "#commentplus_stream_Stream2"
+    And I should not see "stream2_comment3" within "#commentplus_stream_Stream2"
 
     And I should not see "Older Comments"
 
     When I follow "Newer Comments"
 
-    Then I should not see "stream1_comment1" within "#commentplus_stream_1"
-    And I should not see "stream1_comment2" within "#commentplus_stream_1"
-    And I should see "stream1_comment3" within "#commentplus_stream_1"
+    Then I should not see "stream1_comment1" within "#commentplus_stream_Stream1"
+    And I should not see "stream1_comment2" within "#commentplus_stream_Stream1"
+    And I should see "stream1_comment3" within "#commentplus_stream_Stream1"
 
-    And I should not see "stream2_comment1" within "#commentplus_stream_2"
-    And I should not see "stream2_comment2" within "#commentplus_stream_2"
-    And I should see "stream2_comment3" within "#commentplus_stream_2"
+    And I should not see "stream2_comment1" within "#commentplus_stream_Stream2"
+    And I should not see "stream2_comment2" within "#commentplus_stream_Stream2"
+    And I should see "stream2_comment3" within "#commentplus_stream_Stream2"
 
     And I should not see "Newer Comments"
     And I should see "Older Comments"

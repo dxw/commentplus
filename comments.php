@@ -24,8 +24,9 @@ if (comments_open() || have_comments()) {
     foreach($streams as $stream) {
       $n++;
       $stream = htmlentities($stream);
+      $stream_id = preg_replace('/[^A-Za-z0-9_:.-]/','',$stream);
 ?>
-  <div id="commentplus_stream_<?php echo $n ?>" class="commentplus_stream">
+  <div id="commentplus_stream_<?php echo $stream_id ?>" class="commentplus_stream">
   <h4><?php echo $stream ?></h4>
   <div class="respond">
 <?php include "respond.php" ?>
