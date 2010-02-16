@@ -15,8 +15,8 @@ if (comments_open() || have_comments()) {
 ?>
 <div id="comments">
   <div class="navigation">
-    <p class="alignleft"></p>
-    <p class="alignright"></p>
+    <p class="alignleft"><?php previous_comments_link() ?></p>
+    <p class="alignright"><?php next_comments_link() ?></p>
   </div>
 <?php
   if ($streams) {
@@ -39,8 +39,8 @@ if (comments_open() || have_comments()) {
   }
 ?>
   <div class="navigation">
-    <p class="alignleft"></p>
-    <p class="alignright"></p>
+    <p class="alignleft"><?php previous_comments_link() ?></p>
+    <p class="alignright"><?php next_comments_link() ?></p>
   </div>
 </div>
 <?php
