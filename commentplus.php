@@ -11,6 +11,9 @@ class CommentPlus {
     add_filter('comments_template', array(&$this, 'comments_template'));
     add_action('comment_post', array(&$this, 'comment_post'));
     add_action('comments_array', array(&$this, 'comments_array'));
+    add_action('comment_post', array(&$this, 'comment_post'));
+    wp_deregister_script('comment-reply');
+    wp_register_script('comment-reply', WP_PLUGIN_URL.'/commentplus/comment-reply.js');
   }
 
   // Filters
