@@ -76,3 +76,18 @@ Feature: Commenting on a post
 
     And I should not see "Newer Comments"
     And I should see "Older Comments"
+
+  Scenario: Threaded comments
+    Given option "thread_comments" is set to "1"
+    And I am logged in as "admin"
+    And I am on post "TestPost1"
+
+    Then I fill in "comment_1" with "stream1_comment1"
+    And I press "submit_1"
+    And I fill in "comment_2" with "stream2_comment1"
+    And I press "submit_2"
+
+    When I follow "Reply" within "#commentplus_stream_Stream2"
+    And I fill in "comment_2" with "stream2_reply1"
+    And I press "submit_2"
+    Then I should see "stream2_reply1" within "//*[text()='stream2_comment1']/ancestor::li"
