@@ -1,8 +1,3 @@
-Given /^I am not logged in$/ do
-  visit path_to 'admin dashboard'
-  click_link('Log Out')
-end
-
 Given /^a post called "([^\"]*)"$/ do |title|
   visit path_to 'new post'
   fill_in 'title', :with => title
