@@ -25,7 +25,8 @@ function load(thus, stream, cpage) {
   jQuery(function($){
     var get_comments_url = $('link[rel="commentplus_ajah"]').attr('href');
     var post = $('input[name="comment_post_ID"]').attr('value');
-    $(thus).load(get_comments_url, 'post='+post+'&stream='+stream+'&cpage='+cpage, function(){fiddle_comments_links(thus, stream, cpage)});
+    $(thus).slideUp();
+    $(thus).load(get_comments_url, 'post='+post+'&stream='+stream+'&cpage='+cpage, function(){$(this).slideDown();fiddle_comments_links(thus, stream, cpage)});
   });
 }
 function fiddle_comments_links(thus, n, cpage) {
