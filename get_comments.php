@@ -11,10 +11,9 @@ if (!have_posts())
 global $commentplus;
 the_post();
 
-$streams = json_decode(get_post_meta($post->ID, '_commentplus',1));
-if (!isset($streams[$n]))
+$commentplus->n = $n;
+if(!$commentplus->has_streams($n))
   return;
-$stream = $streams[$n];
 set_query_var('cpage', $cpage);
 $commentplus->init_ajah();
 comments_template('/commentplus_ajah');

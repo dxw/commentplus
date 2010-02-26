@@ -60,15 +60,6 @@ class CommentPlus {
 
   // Everything else
 
-  function get_comments($stream) {
-    global $wp_query;
-    $comments = array();
-    foreach ($wp_query->comments as $comment)
-      if (get_comment_meta($comment->comment_ID, '_commentplus_stream', 1) == $stream)
-        $comments[] = $comment;
-    return $comments;
-  }
-
   function fiddle_max_num_comment_pages($comments = null) {
     global $post, $wp_query;
 
@@ -101,6 +92,36 @@ class CommentPlus {
   function init_ajah() {
     add_filter('next_comments_link_attributes', array(&$this,'next_comments_link_attributes'));
     add_filter('previous_comments_link_attributes', array(&$this,'previous_comments_link_attributes'));
+  }
+
+  // Helper functions
+
+  function has_streams($n = null) {
+    global $post;
+    $this->streams = json_decode(get_post_meta($post->ID, '_commentplus',1));
+    if($n === null)
+      $this->n = -1;
+    else
+      $this->n = $n;
+    return isset($this->streams[0]);
+  }
+
+  function next_stream() {
+    $this->n++;
+    if(isset($this->streams[$this->n])) {
+      $this->stream = htmlentities($this->streams[$this->n]);
+      $this->stream_id = preg_replace('/[^A-Za-z0-9_:.-]/','',$this->streams[$this->n]);
+      return true;
+    }
+  }
+
+  function get_comments() {
+    global $wp_query;
+    $comments = array();
+    foreach ($wp_query->comments as $comment)
+      if (get_comment_meta($comment->comment_ID, '_commentplus_stream', 1) == $this->streams[$this->n])
+        $comments[] = $comment;
+    return $comments;
   }
 }
 
