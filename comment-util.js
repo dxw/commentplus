@@ -34,5 +34,9 @@ function fiddle_comments_links(thus, n, cpage) {
       load(thus, n, cpage+1);
       return false;
     });
+    $(thus).find('.previous_comments_link').click(function(){
+      load(thus, n, cpage-1);
+      return false;
+    });
   });
 }
