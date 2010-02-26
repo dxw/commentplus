@@ -20,7 +20,7 @@ class CommentPlus {
   // Filters
 
   function comments_template($template) {
-    if (preg_match('#/commentplus_ajah$#', $template))
+    if (basename($template) == 'commentplus_ajah')
       return WP_PLUGIN_DIR.'/commentplus/comments_ajah.php';
     else
       return dirname(__FILE__).'/comments.php';
