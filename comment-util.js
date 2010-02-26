@@ -14,7 +14,7 @@ jQuery(function($){
   $('.commentlist').remove();
   $('.commenting').append('<div class="commentplus_ajah"></div>');
 
-  $('.commenting').each(function(n){
+  $('.commentplus_ajah').each(function(n){
     load(this, n);
   });
 });
