@@ -1,4 +1,4 @@
-jQuery(document).ready(function($){
+jQuery(function($){
   // Make streams collapse
     if (false)
   $('.commentplus_stream').each(function(){
