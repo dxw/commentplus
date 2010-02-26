@@ -15,6 +15,7 @@ class CommentPlus {
     wp_deregister_script('comment-reply');
     wp_register_script('comment-reply', WP_PLUGIN_URL.'/commentplus/comment-reply.js', array('comment-util'));
     wp_register_script('comment-util', WP_PLUGIN_URL.'/commentplus/comment-util.js', array('jquery'));
+    add_action('wp_head', array(&$this, 'wp_head'));
   }
 
   // Filters
@@ -30,6 +31,13 @@ class CommentPlus {
     // The only appropriate place for fiddling with $wp_query->max_num_comment_pages
     $this->fiddle_max_num_comment_pages($comments);
     return $comments;
+  }
+
+  function wp_head() {
+?>
+<link rel="commentplus_ajah" href="<?php echo WP_PLUGIN_URL ?>/commentplus/get_comments.php">
+<meta name="cpage" content="<?php echo intval(get_query_var('cpage')) ?>">
+<?php
   }
 
   // Actions
