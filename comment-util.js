@@ -24,6 +24,14 @@ function load(thus, stream, cpage) {
     var post = $('input[name="comment_post_ID"]').attr('value');
     if (cpage == null)
       cpage = $('meta[name="cpage"]').attr('content');
-    $(thus).load(get_comments_url, 'post='+post+'&stream='+stream+'&cpage='+cpage);
+    $(thus).load(get_comments_url, 'post='+post+'&stream='+stream+'&cpage='+cpage, function(){fiddle_comments_links(thus,stream)});
+  });
+}
+function fiddle_comments_links(commenting, n) {
+  jQuery(function($){
+    $(commenting).find('.next_comments_link').click(function(){
+      load(commenting, n, 2);
+      return false;
+    });
   });
 }

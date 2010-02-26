@@ -33,6 +33,14 @@ class CommentPlus {
     return $comments;
   }
 
+  function next_comments_link_attributes() {
+    return 'class="next_comments_link"';
+  }
+
+  function previous_comments_link_attributes() {
+    return 'class="previous_comments_link"';
+  }
+
   function wp_head() {
 ?>
 <link rel="commentplus_ajah" href="<?php echo WP_PLUGIN_URL ?>/commentplus/get_comments.php">
@@ -88,6 +96,11 @@ class CommentPlus {
 
     // Use the largest size as the numerator
     $wp_query->max_num_comment_pages = empty($page_counts) ? 1 : max($page_counts);
+  }
+
+  function init_ajah() {
+    add_filter('next_comments_link_attributes', array(&$this,'next_comments_link_attributes'));
+    add_filter('previous_comments_link_attributes', array(&$this,'previous_comments_link_attributes'));
   }
 }
 
