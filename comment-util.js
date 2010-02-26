@@ -15,7 +15,7 @@ jQuery(function($){
   $('.commenting').append('<div class="commentplus_ajah"></div>');
 
   $('.commenting').each(function(n){
-    load(this, n+1);
+    load(this, n);
   });
 });
 function load(thus, stream, cpage) {
