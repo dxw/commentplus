@@ -28,12 +28,12 @@ if (comments_open() || have_comments()) {
 ?>
   <div id="commentplus_stream_<?php echo $stream_id ?>" class="commentplus_stream">
   <h4><?php echo $stream ?></h4>
-  <div class="respond">
+  <div class="commenting">
 <?php include "respond.php" ?>
+    <ol class="commentlist">
+      <?php wp_list_comments('', $commentplus->get_comments($stream)) ?>
+    </ol>
   </div>
-  <ol class="commentlist">
-    <?php wp_list_comments('', $commentplus->get_comments($stream)) ?>
-  </ol>
   </div>
 <?php
     }

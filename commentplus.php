@@ -13,7 +13,8 @@ class CommentPlus {
     add_action('comments_array', array(&$this, 'comments_array'));
     add_action('comment_post', array(&$this, 'comment_post'));
     wp_deregister_script('comment-reply');
-    wp_register_script('comment-reply', WP_PLUGIN_URL.'/commentplus/comment-reply.js');
+    wp_register_script('comment-reply', WP_PLUGIN_URL.'/commentplus/comment-reply.js', array('comment-util'));
+    wp_register_script('comment-util', WP_PLUGIN_URL.'/commentplus/comment-util.js', array('jquery'));
   }
 
   // Filters
