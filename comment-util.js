@@ -14,23 +14,24 @@ jQuery(function($){
   $('.commentlist').remove();
   $('.commenting').append('<div class="commentplus_ajah"></div>');
 
+  var cpage = parseInt($('meta[name="cpage"]').attr('content'));
+  if (cpage < 1)
+    cpage = 1;
   $('.commentplus_ajah').each(function(n){
-    load(this, n);
+    load(this, n, cpage);
   });
 });
 function load(thus, stream, cpage) {
   jQuery(function($){
     var get_comments_url = $('link[rel="commentplus_ajah"]').attr('href');
     var post = $('input[name="comment_post_ID"]').attr('value');
-    if (cpage == null)
-      cpage = $('meta[name="cpage"]').attr('content');
-    $(thus).load(get_comments_url, 'post='+post+'&stream='+stream+'&cpage='+cpage, function(){fiddle_comments_links(thus,stream)});
+    $(thus).load(get_comments_url, 'post='+post+'&stream='+stream+'&cpage='+cpage, function(){fiddle_comments_links(thus, stream, cpage)});
   });
 }
-function fiddle_comments_links(commenting, n) {
+function fiddle_comments_links(thus, n, cpage) {
   jQuery(function($){
-    $(commenting).find('.next_comments_link').click(function(){
-      load(commenting, n, 2);
+    $(thus).find('.next_comments_link').click(function(){
+      load(thus, n, cpage+1);
       return false;
     });
   });
