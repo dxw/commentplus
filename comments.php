@@ -6,10 +6,7 @@ if ( post_password_required() ) {
   echo '<p class="nocomments">This post is password protected. Enter the password to view comments.</p>';
   return;
 }
-?>
-<?php
 global $commentplus;
-
 if (comments_open() || have_comments()) {
 ?>
 <div id="comments">
@@ -47,5 +44,4 @@ if (comments_open() || have_comments()) {
 <p class="nocomments">Comments are closed.</p>
 <?php
 }
-
 ?>

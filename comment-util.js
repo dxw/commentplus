@@ -1,6 +1,5 @@
 jQuery(function($){
   // Make streams collapse
-    if (false)
   $('.commentplus_stream').each(function(){
     var stream = $(this);
     stream.find('.commenting').hide();
