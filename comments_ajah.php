@@ -9,7 +9,6 @@ if ( post_password_required() ) {
 
 global $commentplus, $stream;
 ?>
-<div id="comments">
 <div class="commentlist_container">
   <div class="navigation">
     <p class="alignleft"><?php previous_comments_link() ?></p>
