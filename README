@@ -1,0 +1,42 @@
+= What is Comment+?
+
+This plugin allows several streams of comments on each post, specified in that post's postmeta as a JSON array.
+
+It also allows pagination through comments using AJAH (Asynchronous JavaScript And HTML).
+
+Nomenclature note: On each post, the comments are split into district "streams" defined by the postmeta field.
+
+
+= Installation (end-user perspective)
+
+- Download the plugin
+- Put it in wp-content/plugins
+- If you downloaded a zip file, unzip it
+- Enable it
+
+For each post that should be commentable, add a custom field named _commentplus to any posts that should have multiple streams of comments.
+The field must be a JSON array consisting only of strings, for instance ["Can you dig a tunnel to the moon?", "Which is the reddest raddish?"]
+
+
+= Integration with a theme (developer perspective)
+
+Notes:
+- The commenting form is nearly identical to the one in the default theme except most ids are replaced by classes
+- AJAH note: .navigation is removed, and ol.commentlist is replaced by .comments_ajah which comes from get_comments.php
+
+Things you must have in your theme:
+- wp_head() (to load the JS)
+
+
+= Caveats
+
+- There is no UI for modifying the _commentplus postmeta field
+- Having the comment form move around the page via JS doesn't yet work
+- Currently posts without the _commentplus postmeta field cannot have comments
+- This plugin will not be compatible with WordPress 3 (though I expect the codebase to shrink once the neccessary changes are made - see http://core.trac.wordpress.org/ticket/10910 )
+- Currently doesn't allow you to override comments.php, comments_ajah.php, or respond.php in your theme
+
+
+= How it works
+
+Magicks. Read the source.
