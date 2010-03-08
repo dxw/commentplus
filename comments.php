@@ -9,7 +9,6 @@ if ( post_password_required() ) {
 ?>
 <?php
 global $commentplus;
-$streams = json_decode(get_post_meta($post->ID, '_commentplus',1));
 
 if (comments_open() || have_comments()) {
 ?>
@@ -19,18 +18,11 @@ if (comments_open() || have_comments()) {
     <p class="alignright"><?php next_comments_link() ?></p>
   </div>
 <?php
-  if ($streams) {
-    $commentplus->streams = $streams;
-    $n = 0;
-    foreach($streams as $stream) {
-      $n++;
-      $commentplus->n = $n - 1;
-      $stream = htmlentities($stream);
-      $commentplus->stream = $stream;
-      $stream_id = preg_replace('/[^A-Za-z0-9_:.-]/','',$stream);
+  if($commentplus->has_streams()) {
+    while($commentplus->next_stream()) {
 ?>
-  <div id="commentplus_stream_<?php echo $stream_id ?>" class="commentplus_stream">
-  <h4><?php echo $stream ?></h4>
+  <div id="commentplus_stream_<?php echo $commentplus->stream_id ?>" class="commentplus_stream">
+  <h4><?php echo $commentplus->stream ?></h4>
   <div class="commenting">
 <?php include "respond.php" ?>
     <ol class="commentlist">
