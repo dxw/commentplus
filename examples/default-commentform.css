@@ -1,0 +1,32 @@
+.commentform input, .commentform textarea {
+	font: 0.9em 'Lucida Grande', Verdana, Arial, Sans-Serif;
+	}
+.commentform p {
+	font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif;
+	}
+.commentform input {
+	width: 170px;
+	padding: 2px;
+	margin: 5px 5px 1px 0;
+	}
+.commentform {
+	margin: 5px 10px 0 0;
+	}
+.commentform textarea {
+	width: 100%;
+	padding: 2px;
+	}
+.respond:after {
+		content: ".";
+	    display: block;
+	    height: 0;
+	    clear: both;
+	    visibility: hidden;
+	}
+.commentform .submit {
+	margin: 0 0 5px auto;
+	float: right;
+	}
+.commentform p {
+	margin: 5px 0;
+	}
