@@ -20,9 +20,11 @@ if (comments_open() || have_comments()) {
   </div>
 <?php
   if ($streams) {
+    $commentplus->streams = $streams;
     $n = 0;
     foreach($streams as $stream) {
       $n++;
+      $commentplus->n = $n;
       $stream = htmlentities($stream);
       $stream_id = preg_replace('/[^A-Za-z0-9_:.-]/','',$stream);
 ?>
