@@ -24,7 +24,7 @@ if (comments_open() || have_comments()) {
     $n = 0;
     foreach($streams as $stream) {
       $n++;
-      $commentplus->n = $n;
+      $commentplus->n = $n - 1;
       $stream = htmlentities($stream);
       $stream_id = preg_replace('/[^A-Za-z0-9_:.-]/','',$stream);
 ?>
@@ -33,7 +33,7 @@ if (comments_open() || have_comments()) {
   <div class="commenting">
 <?php include "respond.php" ?>
     <ol class="commentlist">
-      <?php wp_list_comments('', $commentplus->get_comments($stream)) ?>
+      <?php wp_list_comments('', $commentplus->get_comments()) ?>
     </ol>
   </div>
   </div>

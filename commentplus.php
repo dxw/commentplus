@@ -115,11 +115,11 @@ class CommentPlus {
     }
   }
 
-  function get_comments($stream) {
+  function get_comments() {
     global $wp_query;
     $comments = array();
     foreach ($wp_query->comments as $comment)
-      if (get_comment_meta($comment->comment_ID, '_commentplus_stream', 1) == $stream)
+      if (get_comment_meta($comment->comment_ID, '_commentplus_stream', 1) == $this->streams[$this->n])
         $comments[] = $comment;
     return $comments;
   }
