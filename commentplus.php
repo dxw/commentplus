@@ -123,6 +123,13 @@ class CommentPlus {
         $comments[] = $comment;
     return $comments;
   }
+
+  function wp_list_comments() {
+    wp_list_comments('', $this->get_comments());
+
+    // Helpfully, wp_list_comments overwrites $wp_query->max_num_comment_pages
+    $this->fiddle_max_num_comment_pages();
+  }
 }
 
 $commentplus = new CommentPlus;

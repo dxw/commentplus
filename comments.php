@@ -23,15 +23,13 @@ if (comments_open() || have_comments()) {
   <div class="commenting">
 <?php include "respond.php" ?>
     <ol class="commentlist">
-      <?php wp_list_comments('', $commentplus->get_comments()) ?>
+      <?php $commentplus->wp_list_comments() ?>
     </ol>
   </div>
   </div>
 <?php
     }
   }
-  // Helpfully, wp_list_comments overwrites $wp_query->max_num_comment_pages
-  $commentplus->fiddle_max_num_comment_pages();
 ?>
   <div class="navigation">
     <p class="alignleft"><?php previous_comments_link() ?></p>
