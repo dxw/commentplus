@@ -2,11 +2,10 @@
 // Do not delete these lines
 if (!empty($_SERVER['SCRIPT_FILENAME']) && 'comments_ajah.php' == basename($_SERVER['SCRIPT_FILENAME']))
   die ('Please do not load this page directly. Thanks!');
+if ( post_password_required() )
+  return print('<p class="nocomments">This post is password protected. Enter the password to view comments.</p>');
 
-if ( post_password_required() ) {
-  echo '<p class="nocomments">This post is password protected. Enter the password to view comments.</p>';
-  return;
-}
+// You can start editing here
 
 global $commentplus; ?>
 

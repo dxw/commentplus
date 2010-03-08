@@ -1,6 +1,10 @@
 <?php
+// Do not delete these lines
 if (!empty($_SERVER['SCRIPT_FILENAME']) && 'respond.php' == basename($_SERVER['SCRIPT_FILENAME']))
   die ('Please do not load this page directly. Thanks!');
+
+// You can start editing here
+
 global $commentplus;
 $n = $commentplus->n;
 ?>
