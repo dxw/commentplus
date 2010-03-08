@@ -20,9 +20,15 @@ The field must be a JSON array consisting only of strings, for instance ["Can yo
 
 = Integration with a theme (developer perspective)
 
+Replacing the default templates with your own:
+- The contents of comments.php can be replaced by adding commentplus_comments.php to your theme
+- The contents of comments_ajah.php can be replaced by adding commentplus_comments_ajah.php to your theme
+- The contents of respond.php can be replaced by adding commentplus_respond.php to your theme
+
 Notes:
-- The commenting form is nearly identical to the one in the default theme except most ids are replaced by classes
+- The commenting form is nearly identical to the one in the default theme except that most ids are replaced by classes
 - AJAH note: .navigation is removed, and ol.commentlist is replaced by .comments_ajah which comes from get_comments.php
+- Each stream is collpased using JS
 
 Things you must have in your theme:
 - wp_head() (to load the JS)
@@ -34,7 +40,6 @@ Things you must have in your theme:
 - Having the comment form move around the page via JS doesn't yet work
 - Currently posts without the _commentplus postmeta field cannot have comments
 - This plugin will not be compatible with WordPress 3 (though I expect the codebase to shrink once the neccessary changes are made - see http://core.trac.wordpress.org/ticket/10910 )
-- Currently doesn't allow you to override comments.php, comments_ajah.php, or respond.php in your theme
 
 
 = How it works
