@@ -26,6 +26,7 @@ if (comments_open() || have_comments()) {
       $n++;
       $commentplus->n = $n - 1;
       $stream = htmlentities($stream);
+      $commentplus->stream = $stream;
       $stream_id = preg_replace('/[^A-Za-z0-9_:.-]/','',$stream);
 ?>
   <div id="commentplus_stream_<?php echo $stream_id ?>" class="commentplus_stream">
