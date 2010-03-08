@@ -5,7 +5,6 @@ if (!empty($_SERVER['SCRIPT_FILENAME']) && 'respond.php' == basename($_SERVER['S
 
 // You can start editing here
 
-global $commentplus;
 $n = $commentplus->n;
 ?>
 <?php if ( comments_open() ) : ?>

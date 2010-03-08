@@ -22,7 +22,7 @@ if (comments_open() || have_comments()): ?>
   <h4><?php echo $commentplus->stream ?></h4>
   <div class="commenting">
 
-<?php include "respond.php" ?>
+<?php $commentplus->respond() ?>
 
     <ol class="commentlist">
       <?php $commentplus->wp_list_comments() ?>

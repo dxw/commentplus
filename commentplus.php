@@ -130,6 +130,11 @@ class CommentPlus {
     // Helpfully, wp_list_comments overwrites $wp_query->max_num_comment_pages
     $this->fiddle_max_num_comment_pages();
   }
+
+  function respond() {
+    global $commentplus, $user_identity, $comment_author, $req, $comment_author_email, $comment_author_url, $post;
+    include "respond.php";
+  }
 }
 
 $commentplus = new CommentPlus;
