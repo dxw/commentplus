@@ -94,6 +94,27 @@ class CommentPlus {
     add_filter('previous_comments_link_attributes', array(&$this,'previous_comments_link_attributes'));
   }
 
+  // Helper functions
+
+  function has_streams($n = null) {
+    global $post;
+    $this->streams = json_decode(get_post_meta($post->ID, '_commentplus',1));
+    if($n === null)
+      $this->n = -1;
+    else
+      $this->n = $n;
+    return isset($this->streams[0]);
+  }
+
+  function next_stream() {
+    $this->n++;
+    if(isset($this->streams[$this->n])) {
+      $this->stream = htmlentities($this->streams[$this->n]);
+      $this->stream_id = preg_replace('/[^A-Za-z0-9_:.-]/','',$this->streams[$this->n]);
+      return true;
+    }
+  }
+
   function get_comments($stream) {
     global $wp_query;
     $comments = array();
