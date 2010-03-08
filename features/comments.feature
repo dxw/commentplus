@@ -120,7 +120,6 @@ Feature: Commenting on a post
 
   Scenario: Importing respond from theme
     Given I am on post "TestPost1"
-    Then files
     Then I should see "Website"
     And I should not see "Testing2"
 
