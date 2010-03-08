@@ -21,10 +21,17 @@ class CommentPlus {
   // Filters
 
   function comments_template($template) {
-    if (basename($template) == 'commentplus_ajah')
-      return WP_PLUGIN_DIR.'/commentplus/comments_ajah.php';
-    else
-      return dirname(__FILE__).'/comments.php';
+    if (basename($template) == 'commentplus_ajah') {
+      $file = get_template_directory().'/commentplus_ajah.php';
+      if(!file_exists($file))
+        $file = dirname(__FILE__).'/comments_ajah.php';
+    } else {
+      $file = get_template_directory().'/commentplus_comments.php';
+      if(!file_exists($file))
+        $file = dirname(__FILE__).'/comments.php';
+    }
+
+    return $file;
   }
 
   function comments_array($comments) {
@@ -133,7 +140,10 @@ class CommentPlus {
 
   function respond() {
     global $commentplus, $user_identity, $comment_author, $req, $comment_author_email, $comment_author_url, $post;
-    include "respond.php";
+    $file = get_template_directory().'/commentplus_respond.php';
+    if(!file_exists($file))
+      $file = 'respond.php';
+    include $file;
   }
 }
 

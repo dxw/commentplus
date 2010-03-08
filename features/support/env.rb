@@ -25,6 +25,13 @@ Before do |scenario|
   WordPress.reset_db
 end
 
+$files = []
+After do |scenario|
+  while f = $files.pop
+    File.delete f
+  end
+end
+
 AfterStep do |scenario|
   Then 'I should not see "( ! )"' # Xdebug
   Then 'I should not see "WordPress database error"' # wpdb

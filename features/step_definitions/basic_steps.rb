@@ -27,3 +27,11 @@ end
 Then /^I approve all comments$/ do
   WordPress.mysql.query(%Q'UPDATE #{WordPress.TABLE_PREFIX}comments SET comment_approved=1')
 end
+
+Given /^the "([^\"]*)" theme contains "([^\"]*)" with "([^\"]*)"$/ do |theme, file, contents|
+  f = File.join('../../themes',theme,file)
+  $files << f
+  open(f,'w+') do |file|
+    file.write(contents)
+  end
+end

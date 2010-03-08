@@ -107,3 +107,24 @@ Feature: Commenting on a post
     And I press "submit_0"
     Then I should see "stream1_reply1" within "//*[@id='commentplus_stream_Stream1']"
     And I should not see "stream1_reply1" within "//*[text()='stream2_comment1']/ancestor::li"
+
+  Scenario: Importing comments from theme
+    Given I am on post "TestPost1"
+    Then I should see "Stream1"
+    And I should not see "Testing1"
+
+    Given the "default" theme contains "commentplus_comments.php" with "Testing1"
+    And I am on post "TestPost1"
+    Then I should see "Testing1"
+    And I should not see "Stream1"
+
+  Scenario: Importing respond from theme
+    Given I am on post "TestPost1"
+    Then files
+    Then I should see "Website"
+    And I should not see "Testing2"
+
+    Given the "default" theme contains "commentplus_respond.php" with "Testing2"
+    And I am on post "TestPost1"
+    Then I should see "Testing2"
+    And I should not see "Website"
