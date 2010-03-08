@@ -7,39 +7,36 @@ if ( post_password_required() ) {
   return;
 }
 global $commentplus;
-if (comments_open() || have_comments()) {
-?>
+if (comments_open() || have_comments()): ?>
+
 <div id="comments">
   <div class="navigation">
     <p class="alignleft"><?php previous_comments_link() ?></p>
     <p class="alignright"><?php next_comments_link() ?></p>
   </div>
-<?php
-  if($commentplus->has_streams()) {
-    while($commentplus->next_stream()) {
-?>
+
+<?php if($commentplus->has_streams()): while($commentplus->next_stream()): ?>
+
   <div id="commentplus_stream_<?php echo $commentplus->stream_id ?>" class="commentplus_stream">
   <h4><?php echo $commentplus->stream ?></h4>
   <div class="commenting">
+
 <?php include "respond.php" ?>
+
     <ol class="commentlist">
       <?php $commentplus->wp_list_comments() ?>
     </ol>
   </div>
   </div>
-<?php
-    }
-  }
-?>
+
+<?php endwhile; endif ?>
+
   <div class="navigation">
     <p class="alignleft"><?php previous_comments_link() ?></p>
     <p class="alignright"><?php next_comments_link() ?></p>
   </div>
 </div>
-<?php
-} else {
-?>
+
+<?php else: ?>
 <p class="nocomments">Comments are closed.</p>
-<?php
-}
-?>
+<?php endif ?>

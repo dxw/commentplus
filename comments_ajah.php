@@ -8,16 +8,18 @@ if ( post_password_required() ) {
   return;
 }
 
-global $commentplus;
-?>
+global $commentplus; ?>
+
 <div class="commentlist_container">
   <div class="navigation">
     <p class="alignleft"><?php previous_comments_link() ?></p>
     <p class="alignright"><?php next_comments_link() ?></p>
   </div>
+
   <ol class="commentlist">
     <?php $commentplus->wp_list_comments() ?>
   </ol>
+
   <div class="navigation">
     <p class="alignleft"><?php previous_comments_link() ?></p>
     <p class="alignright"><?php next_comments_link() ?></p>
