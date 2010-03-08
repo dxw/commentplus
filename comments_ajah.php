@@ -7,7 +7,7 @@ if ( post_password_required() ) {
   return;
 }
 
-global $commentplus, $stream;
+global $commentplus;
 ?>
 <div class="commentlist_container">
   <div class="navigation">
