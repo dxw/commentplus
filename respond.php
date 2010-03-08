@@ -2,7 +2,7 @@
 if (!empty($_SERVER['SCRIPT_FILENAME']) && 'respond.php' == basename($_SERVER['SCRIPT_FILENAME']))
   die ('Please do not load this page directly. Thanks!');
 global $commentplus;
-$n = $commentplus->n;
+$n = $commentplus->n + 1;
 $stream = $commentplus->stream;
 ?>
 <?php if ( comments_open() ) : ?>

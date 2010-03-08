@@ -4,13 +4,6 @@ Given /^a post called "([^\"]*)"$/ do |title|
   click_button 'Publish'
 end
 
-Given /^the post "([^\"]*)" has meta "([^\"]*)" as "(.*)"$/ do |title,key,value|
-  visit path_to %Q%edit post "#{title}"%
-  fill_in 'metakeyinput', :with => key
-  fill_in 'metavalue', :with => value
-  click_button 'Update'
-end
-
 Given /^the post "([^\"]*)" has comment_status "([^\"]*)"$/ do |title,status|
   Given 'I am logged in as "admin"'
   visit path_to %Q%edit post "#{title}"%
