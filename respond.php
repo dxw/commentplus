@@ -3,7 +3,6 @@ if (!empty($_SERVER['SCRIPT_FILENAME']) && 'respond.php' == basename($_SERVER['S
   die ('Please do not load this page directly. Thanks!');
 global $commentplus;
 $n = $commentplus->n;
-$stream = $commentplus->stream;
 ?>
 <?php if ( comments_open() ) : ?>
 
@@ -44,7 +43,7 @@ $stream = $commentplus->stream;
 <?php comment_id_fields(); ?>
 </p>
 <?php do_action('comment_form', $post->ID); ?>
-<input type="hidden" name="commentplus_stream" value="<?php echo $stream ?>" id="commentplus_stream_<?php echo $n ?>" />
+<input type="hidden" name="commentplus_stream" value="<?php echo $commentplus->stream ?>" id="commentplus_stream_<?php echo $n ?>" />
 
 </form>
 
