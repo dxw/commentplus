@@ -1,4 +1,23 @@
 jQuery(function($){
+
+  function load(thus, stream, cpage) {
+    var get_comments_url = $('link[rel="commentplus_ajah"]').attr('href');
+    var post = $('input[name="comment_post_ID"]').attr('value');
+    $(thus).slideUp();
+    $(thus).load(get_comments_url, 'post='+post+'&stream='+stream+'&cpage='+cpage, function(){$(this).slideDown();fiddle_comments_links(thus, stream, cpage)});
+  }
+
+  function fiddle_comments_links(thus, n, cpage) {
+    $(thus).find('.next_comments_link').click(function(){
+      load(thus, n, cpage+1);
+      return false;
+    });
+    $(thus).find('.previous_comments_link').click(function(){
+      load(thus, n, cpage-1);
+      return false;
+    });
+  }
+
   // Make streams collapse
   $('.commentplus_stream').each(function(){
     var stream = $(this);
@@ -20,23 +39,3 @@ jQuery(function($){
     load(this, n, cpage);
   });
 });
-function load(thus, stream, cpage) {
-  jQuery(function($){
-    var get_comments_url = $('link[rel="commentplus_ajah"]').attr('href');
-    var post = $('input[name="comment_post_ID"]').attr('value');
-    $(thus).slideUp();
-    $(thus).load(get_comments_url, 'post='+post+'&stream='+stream+'&cpage='+cpage, function(){$(this).slideDown();fiddle_comments_links(thus, stream, cpage)});
-  });
-}
-function fiddle_comments_links(thus, n, cpage) {
-  jQuery(function($){
-    $(thus).find('.next_comments_link').click(function(){
-      load(thus, n, cpage+1);
-      return false;
-    });
-    $(thus).find('.previous_comments_link').click(function(){
-      load(thus, n, cpage-1);
-      return false;
-    });
-  });
-}
