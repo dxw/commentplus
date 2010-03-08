@@ -60,15 +60,6 @@ class CommentPlus {
 
   // Everything else
 
-  function get_comments($stream) {
-    global $wp_query;
-    $comments = array();
-    foreach ($wp_query->comments as $comment)
-      if (get_comment_meta($comment->comment_ID, '_commentplus_stream', 1) == $stream)
-        $comments[] = $comment;
-    return $comments;
-  }
-
   function fiddle_max_num_comment_pages($comments = null) {
     global $post, $wp_query;
 
@@ -101,6 +92,15 @@ class CommentPlus {
   function init_ajah() {
     add_filter('next_comments_link_attributes', array(&$this,'next_comments_link_attributes'));
     add_filter('previous_comments_link_attributes', array(&$this,'previous_comments_link_attributes'));
+  }
+
+  function get_comments($stream) {
+    global $wp_query;
+    $comments = array();
+    foreach ($wp_query->comments as $comment)
+      if (get_comment_meta($comment->comment_ID, '_commentplus_stream', 1) == $stream)
+        $comments[] = $comment;
+    return $comments;
   }
 }
 
