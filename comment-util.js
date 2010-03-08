@@ -1,13 +1,13 @@
 jQuery(function($){
 
   function load(thus, stream, cpage) {
-    var get_comments_url = $('link[rel="commentplus_ajah"]').attr('href');
+    var getCommentsUrl = $('link[rel="commentplus_ajah"]').attr('href');
     var post = $('input[name="comment_post_ID"]').attr('value');
     $(thus).slideUp();
-    $(thus).load(get_comments_url, 'post='+post+'&stream='+stream+'&cpage='+cpage, function(){$(this).slideDown();fiddle_comments_links(thus, stream, cpage)});
+    $(thus).load(getCommentsUrl, 'post='+post+'&stream='+stream+'&cpage='+cpage, function(){$(this).slideDown();fiddleCommentsLinks(thus, stream, cpage)});
   }
 
-  function fiddle_comments_links(thus, n, cpage) {
+  function fiddleCommentsLinks(thus, n, cpage) {
     $(thus).find('.next_comments_link').click(function(){
       load(thus, n, cpage+1);
       return false;
