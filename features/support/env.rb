@@ -32,10 +32,3 @@ AfterStep do |scenario|
   Then 'I should not see "Warning:  "'
   Then 'I should not see "Error:  "'
 end
-
-# Hmm. Why did I remove this? I forget.
-class WordPress
-  def php code
-    `php -r 'include "#{WordPress.ABSPATH}/wp-load.php"; #{code};' 2>/dev/null`
-  end
-end
