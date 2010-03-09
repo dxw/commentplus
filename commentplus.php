@@ -10,7 +10,7 @@ if (!empty($_SERVER['SCRIPT_FILENAME']) && 'commentplus.php' == basename($_SERVE
 
 class CommentPlus {
   function __construct() {
-    $this->stream_defs = (array)json_decode(get_option('commentplus', '{}'));
+    $this->stream_defs = json_decode(get_option('commentplus', '{}'));
 
     add_filter('comments_template', array(&$this, 'comments_template'));
     add_action('comment_post', array(&$this, 'comment_post'));
@@ -102,8 +102,8 @@ class CommentPlus {
 
   function get_stream($name)
   {
-    if(isset($this->stream_defs[$name]))
-      return $this->stream_defs[$name];
+    if(isset($this->stream_defs->{$name}))
+      return $this->stream_defs->{$name};
     return array();
   }
 

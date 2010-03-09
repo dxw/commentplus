@@ -21,7 +21,7 @@ class CommentPlusAdminInterface {
   function add_box() {
     global $commentplus, $post;
     $stream_defs = array('');
-    foreach($commentplus->stream_defs as $key => $value)
+    foreach((array)$commentplus->stream_defs as $key => $value)
       $stream_defs[] = $key;
     $existing = get_post_meta($post->ID, '_commentplus', 1);
     if(empty($existing))
@@ -45,7 +45,7 @@ class CommentPlusAdminInterface {
     $streamset = $_POST['commentplus_streamset'];
     if(empty($streamset))
       delete_post_meta($post_id, '_commentplus');
-    elseif(isset($commentplus->stream_defs[$streamset]))
+    elseif(isset($commentplus->stream_defs->{$streamset}))
       if (!add_post_meta($post_id, '_commentplus', $streamset, true))
         update_post_meta($post_id, '_commentplus', $streamset);
   }
