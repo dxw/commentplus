@@ -5,9 +5,10 @@ Feature: Commenting on a post
     And option "comments_per_page" is set to "2"
     And option "comments_order" is set to "asc"
     And option "default_comments_page" is set to "oldest"
+    And option "commentplus" is set to "{"one-two-three":["Stream1","Stream2","Stream3"]}"
     And plugin "commentplus" is enabled
     And a post called "TestPost1"
-    And the post "TestPost1" has meta "_commentplus" as "["Stream1","Stream2","Stream3"]"
+    And the post "TestPost1" has meta "_commentplus" as "one-two-three"
     And I am not logged in
 
   Scenario: Comment+ appears on posts

@@ -60,7 +60,7 @@ class CommentPlus {
   function comment_post($comment_ID) {
     $comment = get_comment($comment_ID);
     $stream = $_POST['commentplus_stream'];
-    $streams = json_decode(get_post_meta($comment->comment_post_ID, '_commentplus', 1));
+    $streams = $this->get_stream(get_post_meta($comment->comment_post_ID, '_commentplus', 1));
     if ($streams && in_array($stream, $streams))
       add_comment_meta($comment_ID, '_commentplus_stream', $stream);
   }
@@ -74,7 +74,7 @@ class CommentPlus {
       $comments = $wp_query->comments;
 
     // Split comments per stream
-    $streams = json_decode(get_post_meta($post->ID, '_commentplus', 1));
+    $streams = $this->get_stream(get_post_meta($post->ID, '_commentplus', 1));
     $streamed_comments = array();
     foreach ($streams as $stream)
       $streamed_comments[$stream] = array();
@@ -96,6 +96,13 @@ class CommentPlus {
     $wp_query->max_num_comment_pages = empty($page_counts) ? 1 : max($page_counts);
   }
 
+  function get_stream($name)
+  {
+    if(!isset($this->stream_defs))
+      $this->stream_defs = json_decode(get_option('commentplus', '{}'));
+    return $this->stream_defs->{$name};
+  }
+
   function init_ajah() {
     add_filter('next_comments_link_attributes', array(&$this,'next_comments_link_attributes'));
     add_filter('previous_comments_link_attributes', array(&$this,'previous_comments_link_attributes'));
@@ -105,7 +112,7 @@ class CommentPlus {
 
   function has_streams($n = null) {
     global $post;
-    $this->streams = json_decode(get_post_meta($post->ID, '_commentplus',1));
+    $this->streams = $this->get_stream(get_post_meta($post->ID, '_commentplus',1));
     if($n === null)
       $this->n = -1;
     else
