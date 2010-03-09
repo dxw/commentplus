@@ -160,4 +160,6 @@ class CommentPlus {
 
 $commentplus = new CommentPlus;
 
+include "admin_interface.php";
+
 ?>
