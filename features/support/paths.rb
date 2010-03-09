@@ -14,9 +14,8 @@ module NavigationHelpers
   end
   def partial_path_to(page_name)
     case page_name
-    when /^edit post "(.+?)"$/
-      id = WordPress.mysql.query(%Q'SELECT ID FROM #{WordPress.TABLE_PREFIX}posts WHERE post_title="#{$1}"').fetch_row.first.to_i
-      "/wp-admin/post.php?action=edit&post=#{id}"
+    when nil
+      nil
     else
       raise "Can't find mapping from \"#{page_name}\" to a path.\n"
     end
