@@ -5,7 +5,7 @@ Feature: Commenting on a post
     And option "comments_per_page" is set to "2"
     And option "comments_order" is set to "asc"
     And option "default_comments_page" is set to "oldest"
-    And option "commentplus" is set to "{"one-two-three":["Stream1","Stream2","Stream3"]}"
+    And option "commentplus" is set to "{"one-two-three":[{"name":"Stream1","fields":[{"name":"Are cats cute?","type":"yesno"},{"name":"What are your favourite crisps?","type":"select","options":[{"slug":"seabrooks","title":"Seabrooks"},{"slug":"walkers","title":"Walkers"}]}]},{"name":"Stream2","fields":[{"name":"sudo make me a sandwich","type":"yesno"}]},{"name":"Stream3"}]}"
     And plugin "commentplus" is enabled
     And a post called "TestPost1"
     And the post "TestPost1" has meta "_commentplus" as "one-two-three"

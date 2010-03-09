@@ -65,8 +65,11 @@ class CommentPlus {
     $comment = get_comment($comment_ID);
     $stream = $_POST['commentplus_stream'];
     $streams = $this->get_streamset(get_post_meta($comment->comment_post_ID, '_commentplus', 1));
-    if ($streams && in_array($stream, $streams))
-      add_comment_meta($comment_ID, '_commentplus_stream', $stream);
+    foreach ($streams as $str)
+      if ($str->name == $stream) {
+        add_comment_meta($comment_ID, '_commentplus_stream', $str->name, 1);
+        break;
+      }
   }
 
   // Everything else
@@ -80,13 +83,16 @@ class CommentPlus {
     // Split comments per stream
     $streams = $this->get_streamset(get_post_meta($post->ID, '_commentplus', 1));
     $streamed_comments = array();
-    foreach ($streams as $stream)
-      $streamed_comments[$stream] = array();
+    foreach ($streams as $str)
+      $streamed_comments[$str->name] = array();
 
     foreach ($comments as $comment) {
       $stream = get_comment_meta($comment->comment_ID, '_commentplus_stream', 1);
-      if (in_array($stream, $streams))
-        $streamed_comments[$stream][] = $comment;
+      foreach ($streams as $str)
+        if ($str->name == $stream) {
+          $streamed_comments[$str->name][] = $comment;
+          break;
+        }
     }
 
     // Calculate the size with or without threading
@@ -104,7 +110,7 @@ class CommentPlus {
   {
     if(isset($this->stream_defs->{$name}))
       return $this->stream_defs->{$name};
-    return array();
+    return (object)array();
   }
 
   function init_ajah() {
@@ -121,14 +127,14 @@ class CommentPlus {
       $this->n = -1;
     else
       $this->n = $n;
-    return isset($this->streams[0]);
+    return !empty($this->streams);
   }
 
   function next_stream() {
     $this->n++;
-    if(isset($this->streams[$this->n])) {
-      $this->stream = htmlentities($this->streams[$this->n]);
-      $this->stream_id = preg_replace('/[^A-Za-z0-9_:.-]/','',$this->streams[$this->n]);
+    if(isset($this->streams->{$this->n})) {
+      $this->stream = htmlentities($this->streams[$this->n]->name);
+      $this->stream_id = preg_replace('/[^A-Za-z0-9_:.-]/','',$this->streams[$this->n]->name);
       return true;
     }
   }
@@ -136,8 +142,9 @@ class CommentPlus {
   function get_comments() {
     global $wp_query;
     $comments = array();
+    /* YOU ARE HERE */
     foreach ($wp_query->comments as $comment)
-      if (get_comment_meta($comment->comment_ID, '_commentplus_stream', 1) == $this->streams[$this->n])
+      if (get_comment_meta($comment->comment_ID, '_commentplus_stream', 1) == $this->streams[$this->n]->name)
         $comments[] = $comment;
     return $comments;
   }

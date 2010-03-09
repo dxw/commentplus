@@ -2,7 +2,7 @@ Feature: Configuring individual posts
 
   Background:
     Given WordPress is installed
-    And option "commentplus" is set to "{"Set0":["Stream0"],"Set1":["Stream1"]}"
+    And option "commentplus" is set to "{"Set0":[{"name":"Stream0"}],"Set1":[{"name":"Stream1"}]}"
     And plugin "commentplus" is enabled
     And I am not logged in
 

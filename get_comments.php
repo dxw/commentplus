@@ -5,13 +5,12 @@ if (isset($_GET['post']) && isset($_GET['stream']) && isset($_GET['cpage'])) {
   $cpage = (int)$_GET['cpage'];
 }
 require(dirname(__FILE__).'/../../../wp-load.php');
-query_posts(array('p'=>$post_ID));
+query_posts(array('p'=>$post_ID, 'post_type'=>'any'));
 if (!have_posts())
   return;
 global $commentplus;
 the_post();
 
-$commentplus->n = $n;
 if(!$commentplus->has_streams($n))
   return;
 set_query_var('cpage', $cpage);
