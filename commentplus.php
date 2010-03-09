@@ -102,7 +102,9 @@ class CommentPlus {
 
   function get_stream($name)
   {
-    return $this->stream_defs[$name];
+    if(isset($this->stream_defs[$name]))
+      return $this->stream_defs[$name];
+    return array();
   }
 
   function init_ajah() {
