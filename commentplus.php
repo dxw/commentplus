@@ -64,7 +64,7 @@ class CommentPlus {
   function comment_post($comment_ID) {
     $comment = get_comment($comment_ID);
     $stream = $_POST['commentplus_stream'];
-    $streams = $this->get_stream(get_post_meta($comment->comment_post_ID, '_commentplus', 1));
+    $streams = $this->get_streamset(get_post_meta($comment->comment_post_ID, '_commentplus', 1));
     if ($streams && in_array($stream, $streams))
       add_comment_meta($comment_ID, '_commentplus_stream', $stream);
   }
@@ -78,7 +78,7 @@ class CommentPlus {
       $comments = $wp_query->comments;
 
     // Split comments per stream
-    $streams = $this->get_stream(get_post_meta($post->ID, '_commentplus', 1));
+    $streams = $this->get_streamset(get_post_meta($post->ID, '_commentplus', 1));
     $streamed_comments = array();
     foreach ($streams as $stream)
       $streamed_comments[$stream] = array();
@@ -100,7 +100,7 @@ class CommentPlus {
     $wp_query->max_num_comment_pages = empty($page_counts) ? 1 : max($page_counts);
   }
 
-  function get_stream($name)
+  function get_streamset($name)
   {
     if(isset($this->stream_defs->{$name}))
       return $this->stream_defs->{$name};
@@ -116,7 +116,7 @@ class CommentPlus {
 
   function has_streams($n = null) {
     global $post;
-    $this->streams = $this->get_stream(get_post_meta($post->ID, '_commentplus',1));
+    $this->streams = $this->get_streamset(get_post_meta($post->ID, '_commentplus',1));
     if($n === null)
       $this->n = -1;
     else
