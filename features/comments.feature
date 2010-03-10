@@ -138,7 +138,6 @@ Feature: Commenting on a post
 
     When I fill in "author_0" with "Tom Tester"
     And I fill in "email_0" with "tom@example.com"
-    And I choose "cp0_Are_cats_cute__yes"
     And I select "Seabrooks" from "What are your favourite crisps?"
     And I choose "cp1_sudo_make_me_a_sandwich_no"
     And I fill in "comment_0" with "This is a bizzare consultation."
@@ -147,7 +146,7 @@ Feature: Commenting on a post
     Then I approve all comments
     Given I am on post "TestPost1"
 
-    #Then I should see "Are cats cute? Yes" within ".commentlist"
-    #And I should see "What are your favourite crisps? Seabrooks" within ".commentlist"
+    #Then I should see "What are your favourite crisps? Seabrooks" within ".commentlist"
     #And I should see "sudo make me a sandwich No" within ".commentlist"
     #And I should see "This is a bizzare consultation." within ".commentlist"
+    #And I should see "Are cats cute? No response" within ".commentlist"
