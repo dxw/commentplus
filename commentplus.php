@@ -135,7 +135,7 @@ class CommentPlus {
   function next_stream() {
     $this->n++;
     if(isset($this->streams->{$this->n})) {
-      $this->stream = htmlentities($this->streams[$this->n]->name);
+      $this->stream = $this->streams[$this->n]->name;
       if(isset($this->streams[$this->n]->fields))
         $this->stream_questions = $this->streams[$this->n]->fields;
       else

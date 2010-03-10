@@ -18,8 +18,8 @@ if (comments_open() || have_comments()): ?>
 
 <?php if($commentplus->has_streams()): while($commentplus->next_stream()): ?>
 
-  <div id="commentplus_stream_<?php echo $commentplus->stream_id ?>" class="commentplus_stream">
-  <h4><?php echo $commentplus->stream ?></h4>
+  <div id="commentplus_stream_<?php h($commentplus->stream_id) ?>" class="commentplus_stream">
+  <h4><?php h($commentplus->stream) ?></h4>
   <div class="commenting">
 
 <?php $commentplus->respond() ?>

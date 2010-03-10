@@ -27,15 +27,21 @@ class CommentPlusAdminInterface {
     if(empty($existing))
       $existing = '';
 
-    echo '<h5><label for="commentplus_streamset">Stream set</label></h5>';
-    echo '<p>';
-    echo '<select id="commentplus_streamset" name="commentplus_streamset">';
+?>
+  <h5><label for="commentplus_streamset">Stream set</label></h5>
+  <p>
+    <select id="commentplus_streamset" name="commentplus_streamset">
+<?php
     foreach($stream_defs as $key) {
-      $selected = $key==$existing? ' selected="selected"' : '';
-      echo "<option$selected>".htmlspecialchars($key).'</option>';
+      $selected = $key==$existing? 'selected="selected"' : '';
+?>
+      <option <?php echo $selected ?>><?php h($key) ?></option>
+<?php
     }
-    echo '</select>';
-    echo '</p>';
+?>
+    </select>
+  </p>
+<?php
   }
 
   function save_post($post_id) {
