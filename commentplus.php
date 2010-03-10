@@ -120,6 +120,10 @@ class CommentPlus {
     add_filter('previous_comments_link_attributes', array(&$this,'previous_comments_link_attributes'));
   }
 
+  function sanitise($t) {
+    return preg_replace('/[^A-Za-z0-9_:.-]/','_',$t);
+  }
+
   // Helper functions
 
   function has_streams($n = null) {
@@ -140,7 +144,7 @@ class CommentPlus {
         $this->stream_questions = $this->streams[$this->n]->fields;
       else
         $this->stream_questions = null;
-      $this->stream_id = preg_replace('/[^A-Za-z0-9_:.-]/','',$this->streams[$this->n]->name);
+      $this->stream_id = $this->sanitise($this->streams[$this->n]->name);
       return true;
     }
   }
@@ -148,7 +152,6 @@ class CommentPlus {
   function get_comments() {
     global $wp_query;
     $comments = array();
-    /* YOU ARE HERE */
     foreach ($wp_query->comments as $comment)
       if (get_comment_meta($comment->comment_ID, '_commentplus_stream', 1) == $this->streams[$this->n]->name)
         $comments[] = $comment;
@@ -175,7 +178,7 @@ class CommentPlus {
       return;
     foreach($this->stream_questions as $field) {
       $title = htmlentities($field->name);
-      $id = 'cp'.$this->n.'_'.preg_replace('/[^A-Za-z0-9_-]/', '_', $field->name);
+      $id = 'cp'.$this->n.'_'.$this->sanitise($field->name);
 
       if($field->type != 'yesno')
         $title = '<label for="'.htmlentities($id).'">'.$title.'</label>';
