@@ -8,13 +8,14 @@ Author URI: http://thedextrousweb.com/
 if (!empty($_SERVER['SCRIPT_FILENAME']) && 'commentplus.php' == basename($_SERVER['SCRIPT_FILENAME']))
   die ('Please do not load this page directly. Thanks!');
 
-function h($t){echo htmlentities($t);}
+function h($t){echo htmlspecialchars($t);}
 
 class CommentPlus {
   function __construct() {
     $this->stream_defs = json_decode(get_option('commentplus', '{}'));
 
     add_filter('comments_template', array(&$this, 'comments_template'));
+    add_filter('comment_text', array(&$this, 'comment_text'));
     add_action('comment_post', array(&$this, 'comment_post'));
     add_action('comments_array', array(&$this, 'comments_array'));
     add_action('comment_post', array(&$this, 'comment_post'));
@@ -61,6 +62,34 @@ class CommentPlus {
 <?php
   }
 
+  function comment_text($comment_text) {
+    global $comment;
+    if(empty($comment))
+      return $comment_text;
+
+    $streamset = $this->get_streamset(get_post_meta($comment->comment_post_ID, '_commentplus',1));
+    $our_stream = get_comment_meta($comment->comment_ID, '_commentplus_stream', 1);
+    $commentmeta = json_decode(get_comment_meta($comment->comment_ID, '_commentplus_extra', 1));
+
+    $extra_content = '';
+    foreach($streamset as $stream) {
+      if($stream->name == $our_stream) {
+
+        $extra_content .= '<dl class="commentplus_extra">';
+        foreach($stream->fields as $field) {
+          if(isset($commentmeta->{$field->name})) {
+            $value = $commentmeta->{$field->name};
+            $extra_content .= '<dt>'.htmlspecialchars($field->name).'</dt>';
+            $extra_content .= '<dd>'.htmlspecialchars($value).'</dd>';
+          }
+        }
+        $extra_content .= '</dl>';
+        break;
+      }
+    }
+    return $extra_content . $comment_text;
+  }
+
   // Actions
 
   function comment_post($comment_ID) {
@@ -70,6 +99,19 @@ class CommentPlus {
     foreach ($streams as $str)
       if ($str->name == $stream) {
         add_comment_meta($comment_ID, '_commentplus_stream', $str->name, 1);
+
+        // Extra questions
+        $extra = (object)array();
+        if(isset($str->fields)){
+          foreach($str->fields as $n => $field) {
+            $field_id = 'cp'.$n.'_'.$this->sanitise($field->name);
+            if(isset($_POST[$field_id])) {
+              $value = $_POST[$field_id];
+              $extra->{$field->name} = $value;
+            }
+          }
+        }
+        add_comment_meta($comment_ID, '_commentplus_extra', json_encode($extra), 1);
         break;
       }
   }

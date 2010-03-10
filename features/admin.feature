@@ -6,6 +6,7 @@ Feature: Configuring individual posts
     And plugin "commentplus" is enabled
     And I am not logged in
 
+  @erratic @probably-a-terrorist
   Scenario: Add a stream set via admin interface
     Given I am logged in as "admin"
     And I am on new page
