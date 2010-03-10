@@ -104,11 +104,26 @@ class CommentPlus {
         $extra = (object)array();
         if(isset($str->fields)){
           foreach($str->fields as $n => $field) {
+
             $field_id = 'cp'.$n.'_'.$this->sanitise($field->name);
-            if(isset($_POST[$field_id])) {
-              $value = $_POST[$field_id];
+
+            switch($field->type) {
+            case 'yesno':
+              $value = 'No response';
+              if(isset($_POST[$field_id.'_yes']))
+                $value = 'Yes';
+              elseif(isset($_POST[$field_id.'_no']))
+                $value = 'No';
               $extra->{$field->name} = $value;
+              break;
+            case 'select':
+              if(isset($_POST[$field_id])) {
+                $value = $_POST[$field_id];
+                $extra->{$field->name} = $value;
+              }
+              break;
             }
+
           }
         }
         add_comment_meta($comment_ID, '_commentplus_extra', json_encode($extra), 1);

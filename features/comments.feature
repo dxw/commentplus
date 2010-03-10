@@ -146,5 +146,6 @@ Feature: Commenting on a post
     Given I am on post "TestPost1"
 
     Then I should see "This is a bizzare consultation." within ".commentlist"
+    And I should see "Are cats cute?" within ".commentlist"
+    And I should see "No response" within ".commentlist"
     And I should see "What are your favourite crisps? Seabrooks" within ".commentlist"
-    And I should see "Are cats cute? No response" within ".commentlist"
