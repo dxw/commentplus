@@ -8,6 +8,8 @@ Author URI: http://thedextrousweb.com/
 if (!empty($_SERVER['SCRIPT_FILENAME']) && 'commentplus.php' == basename($_SERVER['SCRIPT_FILENAME']))
   die ('Please do not load this page directly. Thanks!');
 
+function h($t){echo htmlentities($t);}
+
 class CommentPlus {
   function __construct() {
     $this->stream_defs = json_decode(get_option('commentplus', '{}'));
@@ -54,8 +56,8 @@ class CommentPlus {
 
   function wp_head() {
 ?>
-<link rel="commentplus_ajah" href="<?php echo WP_PLUGIN_URL ?>/commentplus/get_comments.php">
-<meta name="cpage" content="<?php echo intval(get_query_var('cpage')) ?>">
+<link rel="commentplus_ajah" href="<?php h(WP_PLUGIN_URL) ?>/commentplus/get_comments.php">
+<meta name="cpage" content="<?php h(intval(get_query_var('cpage'))) ?>">
 <?php
   }
 
@@ -176,24 +178,24 @@ class CommentPlus {
       $id = 'cp'.$this->n.'_'.preg_replace('/[^A-Za-z0-9_-]/', '_', $field->name);
 
       if($field->type != 'yesno')
-        $title = '<label for="'.$id.'">'.$title.'</label>';
+        $title = '<label for="'.htmlentities($id).'">'.$title.'</label>';
       echo '<h5>'.$title.'</h5>';
       switch($field->type) {
       case 'yesno':
 ?>
   <ul class="yesno">
-    <li><label for="<?php echo $id ?>_yes"><input type="radio" name="<?php echo $id ?>" id="<?php echo $id ?>_yes" /> Yes</label></li>
-    <li><label for="<?php echo $id ?>_no"><input type="radio" name="<?php echo $id ?>" id="<?php echo $id ?>_no" /> No</label></li>
-    <li><label for="<?php echo $id ?>_nc"><input type="radio" name="<?php echo $id ?>" id="<?php echo $id ?>_nc" /> No response</label></li>
+    <li><label for="<?php h($id) ?>_yes"><input type="radio" name="<?php h($id) ?>" id="<?php h($id) ?>_yes" /> Yes</label></li>
+    <li><label for="<?php h($id) ?>_no"><input type="radio" name="<?php h($id) ?>" id="<?php h($id) ?>_no" /> No</label></li>
+    <li><label for="<?php h($id) ?>_nc"><input type="radio" name="<?php h($id) ?>" id="<?php h($id) ?>_nc" /> No response</label></li>
   </ul>
 <?php
         break;
       case 'select':
 ?>
   <p class="select">
-    <select name="<?php echo $id ?>" id="<?php echo $id ?>">
+    <select name="<?php h($id) ?>" id="<?php h($id) ?>">
       <?php foreach($field->options as $option): ?>
-        <option value="<?php echo htmlentities($option->slug) ?>"><?php echo htmlentities($option->title) ?></option>
+        <option value="<?php h($option->slug) ?>"><?php h($option->title) ?></option>
       <?php endforeach ?>
     </select>
   </p>
