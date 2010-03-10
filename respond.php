@@ -40,6 +40,8 @@ $n = $commentplus->n;
 
 <!--<p><small><strong>XHTML:</strong> You can use these tags: <code><?php echo allowed_tags(); ?></code></small></p>-->
 
+<?php $commentplus->render_questions() ?>
+
 <p><textarea name="comment" class="comment" id="comment_<?php echo $n ?>" cols="58" rows="10" tabindex="<?php echo $n ?>4"></textarea></p>
 
 <p><input name="submit" class="submit" type="submit" id="submit_<?php echo $n ?>" tabindex="<?php echo $n ?>5" value="Submit Comment" />
