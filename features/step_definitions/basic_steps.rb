@@ -1,9 +1,3 @@
-Given /^a post called "([^\"]*)"$/ do |title|
-  visit path_to 'new post'
-  fill_in 'title', :with => title
-  click_button 'Publish'
-end
-
 Given /^the post "([^\"]*)" has comment_status "([^\"]*)"$/ do |title,status|
   Given 'I am logged in as "admin"'
   visit path_to %Q%edit post "#{title}"%
@@ -34,4 +28,8 @@ Given /^the "([^\"]*)" theme contains "([^\"]*)" with "([^\"]*)"$/ do |theme, fi
   open(f,'w+') do |file|
     file.write(contents)
   end
+end
+
+Given /^option "([^\"]*)" is set to the prescribed dosage$/ do |arg1|
+  Given %q&option "commentplus" is set to "{"one-two-three":[{"name":"Stream1","fields":[{"name":"Are cats cute?","type":"yesno"},{"name":"What are your favourite crisps?","type":"select","options":[{"slug":"seabrooks","title":"Seabrooks"},{"slug":"walkers","title":"Walkers"}]}]},{"name":"Stream2","fields":[{"name":"Did Tom's quoting test work?","type":"select","options":[{"slug":"y'e's","title":"Y'e's"},{"slug":"n'o","title":"N'o"}]}]},{"name":"Stream3"}]}"&
 end
