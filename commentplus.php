@@ -124,15 +124,17 @@ class CommentPlus {
                 $extra->{$field->name} = $value;
               break;
             case 'select':
+              $value = 'No response';
               if(isset($_POST[$field_id])) {
-                $value = $_POST[$field_id];
+                $slug = $_POST[$field_id];
                 foreach($field->options as $option) {
-                  if($option->slug == $value) {
-                    $extra->{$field->name} = $option->title;
+                  if($option->slug == $slug) {
+                    $value = $option->title;
                     break;
                   }
                 }
               }
+              $extra->{$field->name} = $value;
               break;
             }
 
@@ -266,6 +268,7 @@ class CommentPlus {
 ?>
   <p class="select">
     <select name="<?php h($id) ?>" id="<?php h($id) ?>">
+      <option></option>
       <?php foreach($field->options as $option): ?>
         <option value="<?php h($option->slug) ?>"><?php h($option->title) ?></option>
       <?php endforeach ?>

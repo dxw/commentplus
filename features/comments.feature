@@ -138,7 +138,6 @@ Feature: Commenting on a post
 
     When I fill in "author_0" with "Tom Tester"
     And I fill in "email_0" with "tom@example.com"
-    And I select "Seabrooks" from "What are your favourite crisps?"
     And I fill in "comment_0" with "This is a bizzare consultation."
     And I press "Submit Comment"
 
@@ -146,10 +145,10 @@ Feature: Commenting on a post
     Given I am on post "TestPost1"
 
     Then I should see "This is a bizzare consultation." within ".commentlist"
-    And I should see "Are cats cute?" within ".commentlist"
-    And I should see "No response" within ".commentlist"
-    And I should see "What are your favourite crisps?" within ".commentlist"
-    And I should see "Seabrooks" within ".commentlist"
+    And I should see "Are cats cute?" within "//dl[@class='commentplus_extra']/dt[1]"
+    And I should see "No response" within "//dl[@class='commentplus_extra']/dd[1]"
+    And I should see "What are your favourite crisps?" within "//dl[@class='commentplus_extra']/dt[2]"
+    And I should see "No response" within "//dl[@class='commentplus_extra']/dd[2]"
 
   @wip
   Scenario: More extra questions
@@ -168,8 +167,7 @@ Feature: Commenting on a post
     Then I approve all comments
     Given I am on post "TestPost1"
 
-    Then I should see "This is a bizzare consultation." within ".commentlist"
-    And I should see "Are cats cute?" within ".commentlist"
-    And I should see "Yes" within ".commentlist"
-    And I should see "What are your favourite crisps?" within ".commentlist"
-    And I should see "Seabrooks" within ".commentlist"
+    And I should see "Are cats cute?" within "//dl[@class='commentplus_extra']/dt[1]"
+    And I should see "Yes" within "//dl[@class='commentplus_extra']/dd[1]"
+    And I should see "What are your favourite crisps?" within "//dl[@class='commentplus_extra']/dt[2]"
+    And I should see "Seabrooks" within "//dl[@class='commentplus_extra']/dd[2]"
