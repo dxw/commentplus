@@ -68,6 +68,9 @@ class CommentPlus {
     if(empty($comment))
       return $comment_text;
 
+    if(get_comment_meta($comment->comment_ID, '_commentplus_notforpublication', 1))
+      return 'This reply is marked not for publication.';
+
     $streamset = $this->get_streamset(get_post_meta($comment->comment_post_ID, '_commentplus',1));
     $our_stream = get_comment_meta($comment->comment_ID, '_commentplus_stream', 1);
     $commentmeta = json_decode(get_comment_meta($comment->comment_ID, '_commentplus_extra', 1));
@@ -100,6 +103,9 @@ class CommentPlus {
     foreach ($streams as $n => $str)
       if ($str->name == $stream) {
         add_comment_meta($comment_ID, '_commentplus_stream', $str->name, 1);
+
+        if (isset($this->_POST['cp'.$n.'_notforpublication']))
+          add_comment_meta($comment_ID, '_commentplus_notforpublication', 1, 1);
 
         // Extra questions
         $extra = (object)array();
@@ -246,6 +252,11 @@ class CommentPlus {
   }
 
   function render_questions() {
+    global $n;
+?>
+    <p class="notforpublication"><label for="cp<?php h($this->n) ?>_notforpublication"><input type="checkbox" name="cp<?php h($this->n) ?>_notforpublication" id="cp<?php h($this->n) ?>_notforpublication" /> Not for publication</label></p>
+<?php
+
     if($this->stream_questions == null)
       return;
     foreach($this->stream_questions as $field) {
