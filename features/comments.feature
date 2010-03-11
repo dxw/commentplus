@@ -5,7 +5,7 @@ Feature: Commenting on a post
     And option "comments_per_page" is set to "2"
     And option "comments_order" is set to "asc"
     And option "default_comments_page" is set to "oldest"
-    And option "commentplus" is set to "{"one-two-three":[{"name":"Stream1","fields":[{"name":"Are cats cute?","type":"yesno"},{"name":"What are your favourite crisps?","type":"select","options":[{"slug":"seabrooks","title":"Seabrooks"},{"slug":"walkers","title":"Walkers"}]}]},{"name":"Stream2","fields":[{"name":"sudo make me a sandwich","type":"yesno"}]},{"name":"Stream3"}]}"
+    And option "commentplus" is set to "{"one-two-three":[{"name":"Stream1","fields":[{"name":"Are cats cute?","type":"yesno"},{"name":"What are your favourite crisps?","type":"select","options":[{"slug":"seabrooks","title":"Seabrooks"},{"slug":"walkers","title":"Walkers"}]}]},{"name":"Stream2","fields":[{"name":"Did Tom's quoting test work?","type":"select","options":[{"slug":"y'e's","title":"Y'e's"},{"slug":"n'o","title":"N'o"}]}]},{"name":"Stream3"}]}"
     And plugin "commentplus" is enabled
     And a post called "TestPost1"
     And the post "TestPost1" has meta "_commentplus" as "one-two-three"
@@ -30,7 +30,7 @@ Feature: Commenting on a post
     When I fill in "author_0" with "Tom Tester"
     And I fill in "email_0" with "tom@thedextrousweb.com"
     And I fill in "comment_0" with "Tickle the tester to test the test."
-    And I press "Submit Comment"
+    And I press "submit_0"
     Then I should see "Tickle" within "#commentplus_stream_Stream1"
     And I should not see "Tickle" within "#commentplus_stream_Stream2"
     And I should not see "Tickle" within "#commentplus_stream_Stream3"
@@ -133,12 +133,12 @@ Feature: Commenting on a post
     Given I am on post "TestPost1"
     Then I should see "Are cats cute?" within "#commentform_0"
     And I should see "What are your favourite crisps?" within "#commentform_0"
-    And I should see "sudo make me a sandwich" within "#commentform_1"
+    And I should see "Did Tom's quoting test work?" within "#commentform_1"
 
     When I fill in "author_0" with "Tom Tester"
     And I fill in "email_0" with "tom@example.com"
     And I fill in "comment_0" with "This is a bizzare consultation."
-    And I press "Submit Comment"
+    And I press "submit_0"
 
     Then I approve all comments
     Given I am on post "TestPost1"
@@ -153,19 +153,33 @@ Feature: Commenting on a post
     Given I am on post "TestPost1"
     Then I should see "Are cats cute?" within "#commentform_0"
     And I should see "What are your favourite crisps?" within "#commentform_0"
-    And I should see "sudo make me a sandwich" within "#commentform_1"
+    And I should see "Did Tom's quoting test work?" within "#commentform_1"
 
     When I fill in "author_0" with "Tom Tester"
     And I fill in "email_0" with "tom@example.com"
     And I choose "Yes"
     And I select "Seabrooks" from "What are your favourite crisps?"
     And I fill in "comment_0" with "This is a bizzare consultation."
-    And I press "Submit Comment"
+    And I press "submit_0"
 
     Then I approve all comments
     Given I am on post "TestPost1"
 
-    And I should see "Are cats cute?" within "//dl[@class='commentplus_extra']/dt[1]"
+    Then I should see "Are cats cute?" within "//dl[@class='commentplus_extra']/dt[1]"
     And I should see "Yes" within "//dl[@class='commentplus_extra']/dd[1]"
     And I should see "What are your favourite crisps?" within "//dl[@class='commentplus_extra']/dt[2]"
     And I should see "Seabrooks" within "//dl[@class='commentplus_extra']/dd[2]"
+
+  Scenario: Quotes
+    Given I am logged in as "admin"
+    And I am on post "TestPost1"
+    And I fill in "comment_1" with "You there! Yes, you. Stop looking at naughty things on the Internet!"
+    And I select "Y'e's" from "Did Tom's quoting test work?"
+    And I press "submit_1"
+
+    Then I approve all comments
+    Given I am on post "TestPost1"
+
+    Then I should see "naughty things on the Internet" within "#commentplus_stream_Stream2 .commentlist"
+    And I should see "Did Tom's quoting test work?" within "//dl[@class='commentplus_extra']/dt[1]"
+    And I should see "Y'e's" within "//dl[@class='commentplus_extra']/dd[1]"

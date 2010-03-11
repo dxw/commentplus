@@ -12,6 +12,7 @@ function h($t){echo htmlspecialchars($t);}
 
 class CommentPlus {
   function __construct() {
+    $this->_POST = stripslashes_deep($_POST); // FUCKING DIE
     $this->stream_defs = json_decode(get_option('commentplus', '{}'));
 
     add_filter('comments_template', array(&$this, 'comments_template'));
@@ -94,7 +95,7 @@ class CommentPlus {
 
   function comment_post($comment_ID) {
     $comment = get_comment($comment_ID);
-    $stream = $_POST['commentplus_stream'];
+    $stream = $this->_POST['commentplus_stream'];
     $streams = $this->get_streamset(get_post_meta($comment->comment_post_ID, '_commentplus', 1));
     foreach ($streams as $n => $str)
       if ($str->name == $stream) {
@@ -110,8 +111,8 @@ class CommentPlus {
             switch($field->type) {
             case 'yesno':
               $value = 'No response';
-              if(isset($_POST[$field_id]))
-                switch($_POST[$field_id]) {
+              if(isset($this->_POST[$field_id]))
+                switch($this->_POST[$field_id]) {
                 case 'yes':
                   $value = 'Yes';
                   break;
@@ -125,8 +126,8 @@ class CommentPlus {
               break;
             case 'select':
               $value = 'No response';
-              if(isset($_POST[$field_id])) {
-                $slug = $_POST[$field_id];
+              if(isset($this->_POST[$field_id])) {
+                $slug = $this->_POST[$field_id];
                 foreach($field->options as $option) {
                   if($option->slug == $slug) {
                     $value = $option->title;
