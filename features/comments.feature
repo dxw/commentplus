@@ -129,7 +129,6 @@ Feature: Commenting on a post
     Then I should see "Testing2"
     And I should not see "Website"
 
-  @wip
   Scenario: Extra questions
     Given I am on post "TestPost1"
     Then I should see "Are cats cute?" within "#commentform_0"
@@ -150,7 +149,6 @@ Feature: Commenting on a post
     And I should see "What are your favourite crisps?" within "//dl[@class='commentplus_extra']/dt[2]"
     And I should see "No response" within "//dl[@class='commentplus_extra']/dd[2]"
 
-  @wip
   Scenario: More extra questions
     Given I am on post "TestPost1"
     Then I should see "Are cats cute?" within "#commentform_0"
