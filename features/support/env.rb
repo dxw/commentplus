@@ -15,7 +15,16 @@ end
 require 'cucumber-wordpress'
 require 'cucumber-wordpress/steps'
 WordPress.configure(YAML::load(open(File.join(File.dirname(__FILE__),'config.yml'))))
-WordPress.write_config
+WordPress.write_config do |config|
+  config << <<HELO
+function my_comment_flood_filter(){return 0;}
+function wp_get_current_user() {
+  add_filter('comment_flood_filter', 'my_comment_flood_filter');
+
+  global $current_user; get_currentuserinfo(); return $current_user;
+}
+HELO
+end
 WordPress.create_db
 at_exit do
   WordPress.reset_config
