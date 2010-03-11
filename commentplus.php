@@ -110,11 +110,18 @@ class CommentPlus {
             switch($field->type) {
             case 'yesno':
               $value = 'No response';
-              if(isset($_POST[$field_id.'_yes']))
-                $value = 'Yes';
-              elseif(isset($_POST[$field_id.'_no']))
-                $value = 'No';
-              $extra->{$field->name} = $value;
+              if(isset($_POST[$field_id]))
+                switch($_POST[$field_id]) {
+                case 'yes':
+                  $value = 'Yes';
+                  break;
+                case 'no':
+                  $value = 'No';
+                  break;
+                default:
+                  $value = 'No response';
+                }
+                $extra->{$field->name} = $value;
               break;
             case 'select':
               if(isset($_POST[$field_id])) {
@@ -244,9 +251,9 @@ class CommentPlus {
       case 'yesno':
 ?>
   <ul class="yesno">
-    <li><label for="<?php h($id) ?>_yes"><input type="radio" name="<?php h($id) ?>" id="<?php h($id) ?>_yes" /> Yes</label></li>
-    <li><label for="<?php h($id) ?>_no"><input type="radio" name="<?php h($id) ?>" id="<?php h($id) ?>_no" /> No</label></li>
-    <li><label for="<?php h($id) ?>_nc"><input type="radio" name="<?php h($id) ?>" id="<?php h($id) ?>_nc" /> No response</label></li>
+    <li><label for="<?php h($id) ?>_yes"><input type="radio" name="<?php h($id) ?>" value="yes" id="<?php h($id) ?>_yes" /> Yes</label></li>
+    <li><label for="<?php h($id) ?>_no"><input type="radio" name="<?php h($id) ?>" value="no" id="<?php h($id) ?>_no" /> No</label></li>
+    <li><label for="<?php h($id) ?>_nc"><input type="radio" name="<?php h($id) ?>" value="nc" id="<?php h($id) ?>_nc" /> No response</label></li>
   </ul>
 <?php
         break;

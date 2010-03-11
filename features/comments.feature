@@ -149,3 +149,25 @@ Feature: Commenting on a post
     And I should see "Are cats cute?" within ".commentlist"
     And I should see "No response" within ".commentlist"
     And I should see "What are your favourite crisps? Seabrooks" within ".commentlist"
+
+  @wip
+  Scenario: More extra questions
+    Given I am on post "TestPost1"
+    Then I should see "Are cats cute?" within "#commentform_0"
+    And I should see "What are your favourite crisps?" within "#commentform_0"
+    And I should see "sudo make me a sandwich" within "#commentform_1"
+
+    When I fill in "author_0" with "Tom Tester"
+    And I fill in "email_0" with "tom@example.com"
+    And I choose "Yes"
+    And I select "Seabrooks" from "What are your favourite crisps?"
+    And I fill in "comment_0" with "This is a bizzare consultation."
+    And I press "Submit Comment"
+
+    Then I approve all comments
+    Given I am on post "TestPost1"
+
+    Then I should see "This is a bizzare consultation." within ".commentlist"
+    And I should see "Are cats cute?" within ".commentlist"
+    And I should see "Yes" within ".commentlist"
+    And I should see "What are your favourite crisps? Seabrooks" within ".commentlist"
