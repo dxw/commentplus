@@ -96,14 +96,14 @@ class CommentPlus {
     $comment = get_comment($comment_ID);
     $stream = $_POST['commentplus_stream'];
     $streams = $this->get_streamset(get_post_meta($comment->comment_post_ID, '_commentplus', 1));
-    foreach ($streams as $str)
+    foreach ($streams as $n => $str)
       if ($str->name == $stream) {
         add_comment_meta($comment_ID, '_commentplus_stream', $str->name, 1);
 
         // Extra questions
         $extra = (object)array();
         if(isset($str->fields)){
-          foreach($str->fields as $n => $field) {
+          foreach($str->fields as $field) {
 
             $field_id = 'cp'.$n.'_'.$this->sanitise($field->name);
 
@@ -126,7 +126,12 @@ class CommentPlus {
             case 'select':
               if(isset($_POST[$field_id])) {
                 $value = $_POST[$field_id];
-                $extra->{$field->name} = $value;
+                foreach($field->options as $option) {
+                  if($option->slug == $value) {
+                    $extra->{$field->name} = $option->title;
+                    break;
+                  }
+                }
               }
               break;
             }
