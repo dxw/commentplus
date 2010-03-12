@@ -284,9 +284,8 @@ class CommentPlus {
   }
 
   function render_questions() {
-    global $n;
 ?>
-    <p class="notforpublication"><label for="cp<?php h($this->n) ?>_notforpublication"><input type="checkbox" name="cp<?php h($this->n) ?>_notforpublication" id="cp<?php h($this->n) ?>_notforpublication" /> Not for publication</label></p>
+    <p class="notforpublication"><label for="cp<?php h($this->n) ?>_notforpublication"><input type="checkbox" name="cp<?php h($this->n) ?>_notforpublication" id="cp<?php h($this->n) ?>_notforpublication" tabindex="<?php h($this->n) ?>3" /> Not for publication</label></p>
 <?php
 
     if($this->stream_questions == null)
@@ -302,16 +301,16 @@ class CommentPlus {
       case 'yesno':
 ?>
   <ul class="yesno">
-    <li><label for="<?php h($id) ?>_yes"><input type="radio" name="<?php h($id) ?>" value="yes" id="<?php h($id) ?>_yes" /> Yes</label></li>
-    <li><label for="<?php h($id) ?>_no"><input type="radio" name="<?php h($id) ?>" value="no" id="<?php h($id) ?>_no" /> No</label></li>
-    <li><label for="<?php h($id) ?>_nc"><input type="radio" name="<?php h($id) ?>" value="nc" checked="checked" id="<?php h($id) ?>_nc" /> No response</label></li>
+    <li><label for="<?php h($id) ?>_yes"><input type="radio" name="<?php h($id) ?>" value="yes" id="<?php h($id) ?>_yes" tabindex="<?php h($this->n) ?>3" /> Yes</label></li>
+    <li><label for="<?php h($id) ?>_no"><input type="radio" name="<?php h($id) ?>" value="no" id="<?php h($id) ?>_no" tabindex="<?php h($this->n) ?>3" /> No</label></li>
+    <li><label for="<?php h($id) ?>_nc"><input type="radio" name="<?php h($id) ?>" value="nc" checked="checked" id="<?php h($id) ?>_nc" tabindex="<?php h($this->n) ?>3" /> No response</label></li>
   </ul>
 <?php
         break;
       case 'select':
 ?>
   <p class="select">
-    <select name="<?php h($id) ?>" id="<?php h($id) ?>">
+    <select name="<?php h($id) ?>" id="<?php h($id) ?>" tabindex="<?php h($this->n) ?>3">
       <option></option>
       <?php foreach($field->options as $option): ?>
         <option value="<?php h($option->slug) ?>"><?php h($option->title) ?></option>
