@@ -70,7 +70,7 @@ class CommentPlus {
 
     $nfp = 'This reply is marked not for publication.';
 
-    if(!is_admin() && get_comment_meta($comment->comment_ID, '_commentplus_notforpublication', 1))
+    if(!is_admin() && !current_user_can('moderate_comments') && get_comment_meta($comment->comment_ID, '_commentplus_notforpublication', 1))
       return $nfp;
 
     $streamset = $this->get_streamset(get_post_meta($comment->comment_post_ID, '_commentplus',1));
@@ -94,7 +94,7 @@ class CommentPlus {
       }
     }
 
-    if(is_admin() && get_comment_meta($comment->comment_ID, '_commentplus_notforpublication', 1))
+    if((is_admin() || current_user_can('moderate_comments')) && get_comment_meta($comment->comment_ID, '_commentplus_notforpublication', 1))
       $extra_content = $nfp . "\n\n" . $extra_content;
 
     return $extra_content . $comment_text;

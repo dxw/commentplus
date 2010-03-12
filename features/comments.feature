@@ -185,8 +185,9 @@ Feature: Commenting on a post
     And I should see "Y'e's" within "//dl[@class='commentplus_extra']/dd[1]"
 
   Scenario: Not for publication
-    Given I am logged in as "admin"
-    And I am on post "TestPost1"
+    Given I am on post "TestPost1"
+    And I fill in "author_0" with "Tom Tester"
+    And I fill in "email_0" with "tom@example.org"
     And I fill in "comment_0" with "A senior politician does something Daily Mail readers would find abhorent"
     And I select "Seabrooks" from "What are your favourite crisps?"
     And I check "Not for publication"
@@ -198,4 +199,13 @@ Feature: Commenting on a post
     Then I should not see "Daily Mail readers"
     And I should not see "What are your favourite crisps?" within ".commentlist"
     And I should not see "Seabrooks" within ".commentlist"
+    And I should see "This reply is marked not for publication."
+
+    Given I am logged in as "admin"
+    And I am on post "TestPost1"
+
+    Then I should see "Tom Tester"
+    And I should see "Daily Mail readers"
+    And I should see "What are your favourite crisps?" within ".commentlist"
+    And I should see "Seabrooks" within ".commentlist"
     And I should see "This reply is marked not for publication."
