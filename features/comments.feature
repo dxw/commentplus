@@ -196,7 +196,8 @@ Feature: Commenting on a post
     Then I approve all comments
     Given I am on post "TestPost1"
 
-    Then I should not see "Daily Mail readers"
+    Then I should not see "Tom Tester"
+    And I should not see "Daily Mail readers"
     And I should not see "What are your favourite crisps?" within ".commentlist"
     And I should not see "Seabrooks" within ".commentlist"
     And I should see "This reply is marked not for publication."

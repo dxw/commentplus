@@ -17,6 +17,7 @@ class CommentPlus {
 
     add_filter('comments_template', array(&$this, 'comments_template'));
     add_filter('comment_text', array(&$this, 'comment_text'));
+    add_filter('get_comment_author', array(&$this, 'get_comment_author'));
     add_action('comment_post', array(&$this, 'comment_post'));
     add_action('comments_array', array(&$this, 'comments_array'));
     add_action('comment_post', array(&$this, 'comment_post'));
@@ -56,22 +57,15 @@ class CommentPlus {
     return 'class="previous_comments_link"';
   }
 
-  function wp_head() {
-?>
-<link rel="commentplus_ajah" href="<?php h(WP_PLUGIN_URL) ?>/commentplus/get_comments.php">
-<meta name="cpage" content="<?php h(intval(get_query_var('cpage'))) ?>">
-<?php
-  }
-
   function comment_text($comment_text) {
     global $comment;
     if(empty($comment))
       return $comment_text;
 
-    $nfp = 'This reply is marked not for publication.';
+    $nfp_text = 'This reply is marked not for publication.';
 
-    if(!is_admin() && !current_user_can('moderate_comments') && get_comment_meta($comment->comment_ID, '_commentplus_notforpublication', 1))
-      return $nfp;
+    if($this->comment_should_be_hidden())
+      return $nfp_text;
 
     $streamset = $this->get_streamset(get_post_meta($comment->comment_post_ID, '_commentplus',1));
     $our_stream = get_comment_meta($comment->comment_ID, '_commentplus_stream', 1);
@@ -94,13 +88,27 @@ class CommentPlus {
       }
     }
 
-    if((is_admin() || current_user_can('moderate_comments')) && get_comment_meta($comment->comment_ID, '_commentplus_notforpublication', 1))
-      $extra_content = $nfp . "\n\n" . $extra_content;
+    if($this->comment_nfp_but_visible())
+      $extra_content = $nfp_text . "\n\n" . $extra_content;
 
     return $extra_content . $comment_text;
   }
 
+  function get_comment_author($author) {
+    if($this->comment_should_be_hidden())
+      return 'Not for publication';
+    else
+      return $author;
+  }
+
   // Actions
+
+  function wp_head() {
+?>
+<link rel="commentplus_ajah" href="<?php h(WP_PLUGIN_URL) ?>/commentplus/get_comments.php">
+<meta name="cpage" content="<?php h(intval(get_query_var('cpage'))) ?>">
+<?php
+  }
 
   function comment_post($comment_ID) {
     $comment = get_comment($comment_ID);
@@ -159,6 +167,16 @@ class CommentPlus {
   }
 
   // Everything else
+
+  function comment_nfp_but_visible() {
+    global $comment;
+    return ((is_admin() || current_user_can('moderate_comments')) && get_comment_meta($comment->comment_ID, '_commentplus_notforpublication', 1));
+  }
+
+  function comment_should_be_hidden() {
+    global $comment;
+    return (!is_admin() && !current_user_can('moderate_comments') && get_comment_meta($comment->comment_ID, '_commentplus_notforpublication', 1));
+  }
 
   function fiddle_max_num_comment_pages($comments = null) {
     global $post, $wp_query;
