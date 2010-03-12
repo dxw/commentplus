@@ -1,8 +1,8 @@
 = What is Comment+?
 
-This plugin allows several streams of comments on each post, specified in that post's postmeta as a JSON array.
+This plugin allows several streams of comments on each post, specified by a postmeta value (accessible from the page/post editor) which refers to a set of questions specified by a JSON string in wp_options.
 
-It also allows pagination through comments using AJAH (Asynchronous JavaScript And HTML).
+It also includes pagination through comments using AJAH (Asynchronous JavaScript And HTML).
 
 Nomenclature note: On each post, the comments are split into district "streams" defined by the postmeta field.
 
@@ -14,21 +14,24 @@ Nomenclature note: On each post, the comments are split into district "streams" 
 - If you downloaded a zip file, unzip it
 - Enable it
 
-For each post that should be commentable, add a custom field named _commentplus to any posts that should have multiple streams of comments.
-The field must be a JSON array consisting only of strings, for instance ["Can you dig a tunnel to the moon?", "Which is the reddest raddish?"]
+To define the questions which can appear on each post, the 'commentplus' option should be set (only possible to do manually at the moment).
+For each post that should be commentable, add a custom field named _commentplus, which should contain a string representing a key in the JSON object defined in wp_options.
 
 
 = Integration with a theme (developer perspective)
 
 Replacing the default templates with your own:
 - The contents of comments.php can be replaced by adding commentplus_comments.php to your theme
+  - This contains what will appear on each page - the comments, and an include of respond.php
 - The contents of comments_ajah.php can be replaced by adding commentplus_comments_ajah.php to your theme
+  - This contains the comments, for users with JavaScript enabled - the next/prev links are fixed with JS events to bring up the next/prev AJAH
 - The contents of respond.php can be replaced by adding commentplus_respond.php to your theme
+  - This is the form - mostly standard, with a few fixes to change ids, and a call to $commentplus->render_questions() to display the additional questions
 
 Notes:
-- The commenting form is nearly identical to the one in the default theme except that most ids are replaced by classes
-- AJAH note: .navigation is removed, and ol.commentlist is replaced by .comments_ajah which comes from get_comments.php
-- Each stream is collpased using JS
+- The commenting form is nearly identical to the one in the default theme except that most ids are replaced by classes, and it includes extra questions
+- AJAH note: .navigation is removed, and ol.commentlist is replaced by .comments_ajah which comes from comments_ajah.php (via get_comments.php)
+- Each stream is collpased using JS and can be opened by activating the links on the headings (clicking, or keyboard-activation)
 
 Things you must have in your theme:
 - wp_head() (to load the JS)
@@ -36,10 +39,17 @@ Things you must have in your theme:
 
 = Caveats
 
-- There is no UI for modifying the _commentplus postmeta field
-- Having the comment form move around the page via JS doesn't yet work
-- Currently posts without the _commentplus postmeta field cannot have comments
-- This plugin will not be compatible with WordPress 3 (though I expect the codebase to shrink once the neccessary changes are made - see http://core.trac.wordpress.org/ticket/10910 )
+- Bugs / unimplemented features
+  - There is no UI for modifying the commentplus option
+  - Having the comment form move around the page via JS doesn't yet work
+  - Currently posts without the _commentplus postmeta field will not have comments
+  - This plugin will be very incompatible with WordPress 3 (though I expect the codebase to shrink once the neccessary changes are made - see http://core.trac.wordpress.org/ticket/10910 )
+  - "Next" links in the AJAH streams are appropriate for the non-AJAH version
+  - When posting a comment, it takes you to the page which would be appropriate if Comment+ was disabled
+
+- These are not bugs, probably
+  - If the commentplus_stream POST value is wrong, a comment is posted, but not attached to any stream (though the _commentplus value is not set to the erroneous value)
+  - Currently, if the commentplus option is changed, any responses with values that are no longer available have those values silently changed to "No response"
 
 
 = How it works
