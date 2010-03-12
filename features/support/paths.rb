@@ -14,8 +14,8 @@ module NavigationHelpers
   end
   def partial_path_to(page_name)
     case page_name
-    when nil
-      nil
+    when 'edit comments'
+      '/wp-admin/edit-comments.php'
     else
       raise "Can't find mapping from \"#{page_name}\" to a path.\n"
     end

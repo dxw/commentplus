@@ -84,3 +84,29 @@ Feature: Configuring individual posts
     And I select "Seabrooks" from "cp0_What_are_your_favourite_crisps_"
     And I fill in "comment_0" with "This is some text."
     And I press "submit_0"
+
+  Scenario: Not for publication in admin interface
+    Given I am logged in as "admin"
+    And option "commentplus" is set to the prescribed dosage
+    And there is a page called "TestPost1"
+    And the page "TestPost1" has meta "_commentplus" as "one-two-three"
+
+    Given I am not logged in
+    And I am on post "TestPost1"
+    And I fill in "author_0" with "Tom Tester"
+    And I fill in "email_0" with "tom@example.org"
+    And I fill in "comment_0" with "A senior politician does something Daily Mail readers would find abhorent"
+    And I select "Seabrooks" from "What are your favourite crisps?"
+    And I check "Not for publication"
+    And I press "submit_0"
+
+    Then I approve all comments
+
+    Given I am logged in as "admin"
+    And I am on edit comments
+    Then I should see "Tom Tester"
+    And I should see "tom@example.org"
+    And I should see "Daily Mail readers"
+    And I should see "What are your favourite crisps?"
+    And I should see "Seabrooks"
+    And I should see "This reply is marked not for publication."
