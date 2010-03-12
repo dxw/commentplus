@@ -202,7 +202,7 @@ Feature: Commenting on a post
     And I should not see "Daily Mail readers"
     And I should not see "What are your favourite crisps?" within ".commentlist"
     And I should not see "Seabrooks" within ".commentlist"
-    And I should see "This reply is marked not for publication."
+    And I should not see "This reply is marked not for publication."
 
     Given I am logged in as "admin"
     And I am on post "TestPost1"
@@ -213,3 +213,32 @@ Feature: Commenting on a post
     And I should see "What are your favourite crisps?" within ".commentlist"
     And I should see "Seabrooks" within ".commentlist"
     And I should see "This reply is marked not for publication."
+
+  Scenario: Hide not for publication responses entirely
+    Given I am logged in as "admin"
+    And I am on post "TestPost1"
+
+    When I fill in "comment_0" with "Hola"
+    And I check "Not for publication"
+    And I press "submit_0"
+    Then I fill in "comment_0" with "今日は"
+    And I press "submit_0"
+    Then I fill in "comment_0" with "Guten Tag"
+    And I press "submit_0"
+
+    Then I approve all comments
+    Given I am not logged in
+    And I am on post "TestPost1"
+
+    Then I should not see "Hola"
+    And I should not see "marked not for publication"
+    And I should see "今日は"
+    And I should see "Guten Tag"
+
+    Given I am logged in as "admin"
+    And I am on post "TestPost1"
+
+    Then I should see "Hola"
+    And I should see "marked not for publication"
+    And I should see "今日は"
+    And I should not see "Guten Tag"

@@ -260,11 +260,12 @@ class CommentPlus {
   }
 
   function get_comments() {
-    global $wp_query;
+    global $wp_query, $comment;
     $comments = array();
     foreach ($wp_query->comments as $comment)
       if (get_comment_meta($comment->comment_ID, '_commentplus_stream', 1) == $this->streams[$this->n]->name)
-        $comments[] = $comment;
+        if (!$this->comment_should_be_hidden())
+          $comments[] = $comment;
     return $comments;
   }
 
