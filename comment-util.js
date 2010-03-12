@@ -22,8 +22,13 @@ jQuery(function($){
   $('.commentplus_stream').each(function(){
     var stream = $(this);
     stream.find('.commenting').hide();
-    stream.find('h4').click(function(){
-      $(this).parent('.commentplus_stream').find('.commenting').slideToggle('slow');
+    var headers = stream.find('h4');
+    headers.each(function(){
+      $(this).html('<a href="#">'+$(this).html()+'</a>');
+    });
+    var links = headers.children();
+    links.click(function(){
+      $(this).parents('.commentplus_stream').find('.commenting').slideToggle('slow');
     });
   });
 
