@@ -18,6 +18,7 @@ class CommentPlus {
     add_filter('comments_template', array(&$this, 'comments_template'));
     add_filter('comment_text', array(&$this, 'comment_text'));
     add_filter('get_comment_author', array(&$this, 'get_comment_author'));
+    add_filter('get_comment_author_url', array(&$this, 'get_comment_author_url'));
     add_action('comment_post', array(&$this, 'comment_post'));
     add_action('comments_array', array(&$this, 'comments_array'));
     add_action('comment_post', array(&$this, 'comment_post'));
@@ -99,6 +100,13 @@ class CommentPlus {
       return 'Not for publication';
     else
       return $author;
+  }
+
+  function get_comment_author_url($url) {
+    if($this->comment_should_be_hidden())
+      return '';
+    else
+      return $url;
   }
 
   // Actions

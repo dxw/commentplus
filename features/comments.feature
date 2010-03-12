@@ -188,6 +188,7 @@ Feature: Commenting on a post
     Given I am on post "TestPost1"
     And I fill in "author_0" with "Tom Tester"
     And I fill in "email_0" with "tom@example.org"
+    And I fill in "url_0" with "http://example.org/"
     And I fill in "comment_0" with "A senior politician does something Daily Mail readers would find abhorent"
     And I select "Seabrooks" from "What are your favourite crisps?"
     And I check "Not for publication"
@@ -197,6 +198,7 @@ Feature: Commenting on a post
     Given I am on post "TestPost1"
 
     Then I should not see "Tom Tester"
+    And "Not for publication" should not be a link
     And I should not see "Daily Mail readers"
     And I should not see "What are your favourite crisps?" within ".commentlist"
     And I should not see "Seabrooks" within ".commentlist"
@@ -206,6 +208,7 @@ Feature: Commenting on a post
     And I am on post "TestPost1"
 
     Then I should see "Tom Tester"
+    And "Tom Tester" should link to "http://example.org/"
     And I should see "Daily Mail readers"
     And I should see "What are your favourite crisps?" within ".commentlist"
     And I should see "Seabrooks" within ".commentlist"

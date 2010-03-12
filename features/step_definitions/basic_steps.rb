@@ -33,3 +33,14 @@ end
 Given /^option "([^\"]*)" is set to the prescribed dosage$/ do |arg1|
   Given %q&option "commentplus" is set to "{"one-two-three":[{"name":"Stream1","fields":[{"name":"Are cats cute?","type":"yesno"},{"name":"What are your favourite crisps?","type":"select","options":[{"slug":"seabrooks","title":"Seabrooks"},{"slug":"walkers","title":"Walkers"}]}]},{"name":"Stream2","fields":[{"name":"Did Tom's quoting test work?","type":"select","options":[{"slug":"y'e's","title":"Y'e's"},{"slug":"n'o","title":"N'o"}]}]},{"name":"Stream3"}]}"&
 end
+
+Then /^"([^\"]*)" should not be a link$/ do |text|
+  lambda { click_link(text) }.should raise_exception Webrat::NotFoundError
+end
+
+Then /^"([^\"]*)" should link to "([^\"]*)"$/ do |text, url|
+  u = current_url
+  click_link text
+  current_url.should == url
+  visit u
+end
