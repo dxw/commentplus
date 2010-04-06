@@ -77,11 +77,13 @@ class CommentPlus {
       if($stream->name == $our_stream) {
 
         $extra_content .= '<dl class="commentplus_extra">';
-        foreach($stream->fields as $field) {
-          if(isset($commentmeta->{$field->name})) {
-            $value = $commentmeta->{$field->name};
-            $extra_content .= '<dt>'.htmlspecialchars($field->name).'</dt>';
-            $extra_content .= '<dd>'.htmlspecialchars($value).'</dd>';
+        if(isset($stream->fields)) {
+          foreach($stream->fields as $field) {
+            if(isset($commentmeta->{$field->name})) {
+              $value = $commentmeta->{$field->name};
+              $extra_content .= '<dt>'.htmlspecialchars($field->name).'</dt>';
+              $extra_content .= '<dd>'.htmlspecialchars($value).'</dd>';
+            }
           }
         }
         $extra_content .= '</dl>';
