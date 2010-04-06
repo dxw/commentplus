@@ -6,6 +6,7 @@ class CommentPlusAdminInterface {
   function __construct() {
     add_action('do_meta_boxes', array($this,'do_meta_boxes'));
     add_action('save_post', array($this,'save_post'));
+    add_action('admin_menu', array(&$this,'admin_menu'));
   }
 
   // Metaboxen
@@ -54,6 +55,22 @@ class CommentPlusAdminInterface {
     elseif(isset($commentplus->stream_defs->{$streamset}))
       if (!add_post_meta($post_id, '_commentplus', $streamset, true))
         update_post_meta($post_id, '_commentplus', $streamset);
+  }
+
+  // Settings page
+
+  function admin_menu() {
+    add_options_page('Comment+', 'Comment+', 'manage_options', __FILE__, array(&$this,'settings'));
+  }
+
+  function settings() {
+?>
+<div class="wrap">
+  <h2>Comment+</h2>
+
+  <p><a href="<?php h(WP_PLUGIN_URL.'/commentplus/export.php') ?>">Download CSV</a></p>
+</div>
+<?php
   }
 }
 
