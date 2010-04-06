@@ -29,6 +29,7 @@ jQuery(function($){
     var links = headers.children();
     links.click(function(){
       $(this).parents('.commentplus_stream').find('.commenting').slideToggle('slow');
+      return false;
     });
   });
 
