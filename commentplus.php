@@ -13,7 +13,7 @@ function h($t){echo htmlspecialchars($t);}
 class CommentPlus {
   function __construct() {
     $this->_POST = stripslashes_deep($_POST); // FUCKING DIE
-    $this->stream_defs = json_decode(get_option('commentplus', '{}'));
+    $this->set_stream_defs();
 
     add_filter('comments_template', array(&$this, 'comments_template'));
     add_filter('comment_text', array(&$this, 'comment_text'));
@@ -177,6 +177,15 @@ class CommentPlus {
   }
 
   // Everything else
+
+  function set_stream_defs() {
+    $file = get_stylesheet_directory().'/commentplus.json';
+    if (file_exists($file))
+      $json = file_get_contents($file);
+    else
+      $json = get_option('commentplus', '{}');
+    $this->stream_defs = json_decode($json);
+  }
 
   function comment_nfp_but_visible() {
     global $comment;

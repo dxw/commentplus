@@ -98,3 +98,11 @@ end
 Then /^I should receieve a zip file$/ do
   response.header['content-type'].should == 'application/zip'
 end
+
+Given /^there is a a config file$/ do
+  file = '../../themes/default/commentplus.json'
+  open(file, 'w+') do |f|
+    f.write '{"one-two-three":[{"name":"Stream1","fields":[{"name":"How many lightbulb jokes does it take to screw in a lightbulb?","type":"yesno"}]}]}'
+  end
+  $files << file
+end

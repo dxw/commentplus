@@ -242,3 +242,8 @@ Feature: Commenting on a post
     And I should see "marked not for publication"
     And I should see "今日は"
     And I should not see "Guten Tag"
+
+  Scenario: Taking the config from current_theme/commentplus.json
+    Given there is a a config file
+    And I am on post "TestPost1"
+    Then I should see "How many lightbulb jokes does it take to screw in a lightbulb?"
