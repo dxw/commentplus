@@ -42,7 +42,6 @@ Feature: Configuring individual posts
     Given I am on edit page "Page0"
     Then the "Stream set" field should contain "Set0"
 
-  @wip
   Scenario: Downloading a data dump as CSV
     Given there is data
     And I am logged in as "admin"

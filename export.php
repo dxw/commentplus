@@ -1,12 +1,11 @@
 <?php
+header('Content-type: text/plain');
 
 include dirname(__FILE__).'/../../../wp-load.php';
 
 if (!current_user_can('create_users'))
   die('You are not authorised to see this. Please log in and try again.');
 
-// Why do I not have STDOUT defined?
-define('STDOUT',fopen('php://output','w'));
 // Why does fputcsv not work correctly like this does?
 // http://www.php.net/manual/en/function.fputcsv.php#87120
 function fputcsv2 ($fh, array $fields, $delimiter = ',', $enclosure = '"', $mysql_null = false) {
@@ -30,16 +29,17 @@ function fputcsv2 ($fh, array $fields, $delimiter = ',', $enclosure = '"', $mysq
 
 // Now we can actually write some code
 
-header('Content-type: text/plain');
-
 $zipfold = strftime('%Y-%m-%d_comments');
+
+// Zip file
+$filename = tempnam('/tmp','zip');
+$zip = new ZipArchive();
+$zip->open($filename,ZIPARCHIVE::OVERWRITE);
 
 $sets = $commentplus->stream_defs;
 
 foreach ($sets as $set_id => $streams) {
-  echo "\n\n\nmkdir $zipfold/$set_id\n";
   foreach ($streams as $stream) {
-    echo "\n\n$zipfold/$set_id/$stream->name.csv\n";
 
     // compose the heading
     $heading = array('comment_ID','Datetime (UTC)','Publishable?','Name','Email','Web site','Comment');
@@ -48,7 +48,8 @@ foreach ($sets as $set_id => $streams) {
         $heading[] = $field->name;
 
     // print heading
-    fputcsv2(STDOUT, $heading);
+    $f = fopen('php://memory', 'w');
+    fputcsv2($f, $heading);
 
     // go through all comments appropriate to this stream
     // foreach comments
@@ -73,13 +74,31 @@ foreach ($sets as $set_id => $streams) {
               $line[] = 'No response';
         }
 
-        fputcsv2(STDOUT, $line);
+        fputcsv2($f, $line);
       }
 
     }
 
+    fseek($f, 0);
+    $csv = '';
+    while ($buf = fread($f, 100))
+      $csv .= $buf;
+    fclose($f);
 
+    $zip->addFromString("$zipfold/$set_id/$stream->name.csv", $csv);
   }
 }
+
+$zip->close();
+$fp = fopen($filename, 'r');
+
+# Output
+header('Pragma: public');
+header('Cache-control: max-age=0');
+header("Content-Type: application/zip");
+header('Content-Disposition: attachment; filename='.$zipfold.'.zip');
+echo(stream_get_contents($fp));
+
+unlink($filename);
 
 ?>
