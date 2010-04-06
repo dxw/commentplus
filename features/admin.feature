@@ -6,20 +6,24 @@ Feature: Configuring individual posts
     And plugin "commentplus" is enabled
     And I am not logged in
 
-  @erratic @probably-a-terrorist
   Scenario: Add a stream set via admin interface
     Given I am logged in as "admin"
     And I am on new page
     Then I fill in "post_title" with "Page0"
     And I select "Set0" from "Stream set"
     And I press "Publish"
+    Then sleep
+
     Given I am on new page
     Then I fill in "post_title" with "Page1"
     And I select "Set1" from "Stream set"
     And I press "Publish"
+    Then sleep
+
     Given I am on new page
     Then I fill in "post_title" with "Page2"
     And I press "Publish"
+    Then sleep
 
     Given I am on page "Page0"
     Then I should see "Stream0"

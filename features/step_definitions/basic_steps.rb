@@ -106,3 +106,6 @@ Given /^there is a a config file$/ do
   end
   $files << file
 end
+Then /^sleep$/ do
+  sleep 0.5
+end
