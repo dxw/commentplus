@@ -4,7 +4,40 @@ This plugin allows several streams of comments on each post, specified by a post
 
 It also includes pagination through comments using AJAH (Asynchronous JavaScript And HTML).
 
-Nomenclature note: On each post, the comments are split into district "streams" defined by the postmeta field.
+Nomenclature note: On each post, the comments are split into district "streams" defined by the postmeta field. The JSON configuration contains a number of streamsets, which in turn contain a number of streams.
+
+= JSON format
+
+Let's represent it in YAML because it's easier for me to parse, just remember that it should be converted to JSON for PHP to parse:
+
+one-two-three:
+- name: Stream1
+  fields:
+  - name: Are cats cute?
+    type: yesno
+  - name: What are your favourite crisps?
+    type: select
+    options:
+    - slug: seabrooks
+      title: Seabrooks
+    - slug: walkers
+      title: Walkers
+- name: Stream2
+  fields:
+  - name: Did Tom's quoting test work?
+    type: select
+    options:
+    - slug: y'e's
+      title: Y'e's
+    - slug: n'o
+      title: N'o
+- name: Stream3
+four-five-six:
+- name: Stream4
+- name: Stream5
+- name: Stream6
+
+The root node is an object, containing named stream sets (arrays). Each stream set contains zero or more streams (objects), which must at least contain a "name" (string). They may also include "fields" (array), which contains zero or more fields to be displayed to the user. The fields have a required "name" (string), and "type" (string - limited to "yesno" or "select"). IF the type is select, the field should also contain "options" (array), which contains objects with a "slug" and a "title" (both strings).
 
 
 = Installation (end-user perspective)
@@ -14,8 +47,9 @@ Nomenclature note: On each post, the comments are split into district "streams" 
 - If you downloaded a zip file, unzip it
 - Enable it
 
-To define the questions which can appear on each post, the 'commentplus' option should be set (only possible to do manually at the moment).
-For each post that should be commentable, add a custom field named _commentplus, which should contain a string representing a key in the JSON object defined in wp_options.
+To define the questions which can appear on each post, the 'commentplus' option should be set (only possible to do manually at the moment). It can also be set by placing it in 'commentplus.json' in the current theme's directory.
+
+For each post that should be commentable, select the appropriate stream set from the Comment+ metabox.
 
 
 = Integration with a theme (developer perspective)
@@ -33,7 +67,7 @@ Notes:
 - AJAH note: .navigation is removed, and ol.commentlist is replaced by .comments_ajah which comes from comments_ajah.php (via get_comments.php)
 - Each stream is collpased using JS and can be opened by activating the links on the headings (clicking, or keyboard-activation)
 
-Things you must have in your theme:
+Things you should have in your theme:
 - wp_head() (to load the JS)
 
 
